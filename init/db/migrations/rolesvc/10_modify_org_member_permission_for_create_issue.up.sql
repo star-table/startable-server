@@ -1,0 +1,1 @@
+Update ppm_rol_role_permission_operation set `operation_codes` = '(View)|(Comment)|(Attention)|(UnAttention)' where role_id = 8 and permission_id in (23,25,26,27,28,29);

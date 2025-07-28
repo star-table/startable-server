@@ -1,0 +1,3 @@
+ALTER TABLE ppm_pri_issue ADD `table_id` bigint NOT NULL DEFAULT '0' COMMENT '无码表格id';
+ALTER TABLE ppm_pri_issue ADD INDEX `index_ppm_pri_issue_project_id_table_id_sort` (`project_id`,`table_id`,`sort`) USING BTREE;
+INSERT INTO `ppm_prs_project_type` (`id`, `org_id`, `lang_code`, `name`, `sort`, `cover`, `default_process_id`, `category`, `mode`, `is_readonly`, `remark`, `status`, `creator`, `create_time`, `updator`, `update_time`, `version`, `is_delete`) VALUES (47, 0, 'ProjectType.Agile.Common2022', '通用项目2022', 2, '', 1, 0, 2, 1, '', 1, 1, '2020-01-17 18:22:39', 1, '2020-01-17 18:22:39', 1, 2);

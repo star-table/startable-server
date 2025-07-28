@@ -1,0 +1,28 @@
+Mysql:
+  Host: 172.19.166.130
+  Port: 33309
+  Usr: root
+  Pwd: JoLNCfUX0-7Xgre_W
+  # 数据库库名
+  Database: polaris_project_manage_appsvc_lctest
+Redis:
+  Database: 4
+MQ:
+  Topics:
+    IssueTrends:
+      Topic: topic_issue_trends_lctest
+      GroupId: topic_issue_trends_group_lctest
+    ProjectTrends:
+      Topic: topic_project_trends_lctest
+      GroupId: topic_project_trends_group_lctest
+DingTalk:
+  SuiteKey: suiteish9wqgeowqiyjfw
+  SuiteSecret: 2HSS0dPC84mKhOggvHw947GIHP0q5_HYDSKw7Z7gdW-yfnOmAW2HO4wmWSxsZyef
+  Token: 4j8vrfryiifl6flcq6t0erz5qhf6femg6j1177rleua
+  AesKey: d1huiqvhoqmt6obz2zox5dscsq43xeoiar9k7sglruq
+  AppId: 25408
+Parameters:
+  EsIndex:
+    Issue: issue_index_lctest
+    Project: project_index_lctest
+    Trends: trends_index_lctest

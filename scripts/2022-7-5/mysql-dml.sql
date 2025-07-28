@@ -1,0 +1,1 @@
+ALTER TABLE lc_app_table ADD COLUMN auto_schedule_flag int NOT NULL DEFAULT '1' COMMENT '自动排期是否开启,1否,2是';

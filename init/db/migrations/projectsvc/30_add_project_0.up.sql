@@ -1,0 +1,1 @@
+insert into ppm_pro_project(id) VALUES (0);

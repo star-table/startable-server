@@ -1,0 +1,1 @@
+delete from ppm_pro_project where id = 0;

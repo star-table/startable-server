@@ -1,0 +1,23 @@
+Mysql:
+  Host: 172.19.166.130
+  Port: 33309
+  Usr: root
+  Pwd: JoLNCfUX0-7Xgre_W
+  Database: polaris_project_manage_appsvc_lctest
+Redis:
+  Database: 4
+Logs:
+  Default:
+    LogPath: ./run.log
+    Level: debug
+  RR:
+    LogPath: ./rr.log
+    Level: info
+  MQ:
+    LogPath: ./mq.log
+    Level: info
+Parameters:
+  EsIndex:
+    Issue: issue_index_test
+    Project: project_index_test
+    Trends: trends_index_test

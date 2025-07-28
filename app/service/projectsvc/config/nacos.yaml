@@ -1,0 +1,332 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/psp: ack.privileged
+    pod.alpha.kubernetes.io/initialized: 'true'
+    redeploy-timestamp: '1692422066402'
+  creationTimestamp: '2023-10-24T13:50:52Z'
+  generateName: nacos-
+  labels:
+    app: nacos
+    controller-revision-hash: nacos-5849d4d49
+    statefulset.kubernetes.io/pod-name: nacos-0
+  managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:pod.alpha.kubernetes.io/initialized': {}
+            'f:redeploy-timestamp': {}
+          'f:generateName': {}
+          'f:labels':
+            .: {}
+            'f:app': {}
+            'f:controller-revision-hash': {}
+            'f:statefulset.kubernetes.io/pod-name': {}
+          'f:ownerReferences':
+            .: {}
+            'k:{"uid":"0f3834a4-3d93-4465-9257-21395047c625"}': {}
+        'f:spec':
+          'f:affinity':
+            .: {}
+            'f:nodeAffinity':
+              .: {}
+              'f:preferredDuringSchedulingIgnoredDuringExecution': {}
+          'f:containers':
+            'k:{"name":"k8snacos"}':
+              .: {}
+              'f:env':
+                .: {}
+                'k:{"name":"MYSQL_SERVICE_DB_NAME"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:configMapKeyRef': {}
+                'k:{"name":"MYSQL_SERVICE_HOST"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:configMapKeyRef': {}
+                'k:{"name":"MYSQL_SERVICE_PASSWORD"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:configMapKeyRef': {}
+                'k:{"name":"MYSQL_SERVICE_PORT"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:configMapKeyRef': {}
+                'k:{"name":"MYSQL_SERVICE_USER"}':
+                  .: {}
+                  'f:name': {}
+                  'f:valueFrom':
+                    .: {}
+                    'f:configMapKeyRef': {}
+                'k:{"name":"NACOS_APPLICATION_PORT"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+                'k:{"name":"NACOS_REPLICAS"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+                'k:{"name":"NACOS_SERVERS"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+                'k:{"name":"NACOS_SERVER_PORT"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+                'k:{"name":"PREFER_HOST_MODE"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+              'f:image': {}
+              'f:imagePullPolicy': {}
+              'f:name': {}
+              'f:ports':
+                .: {}
+                'k:{"containerPort":7848,"protocol":"TCP"}':
+                  .: {}
+                  'f:containerPort': {}
+                  'f:name': {}
+                  'f:protocol': {}
+                'k:{"containerPort":8848,"protocol":"TCP"}':
+                  .: {}
+                  'f:containerPort': {}
+                  'f:name': {}
+                  'f:protocol': {}
+              'f:resources':
+                .: {}
+                'f:requests':
+                  .: {}
+                  'f:cpu': {}
+                  'f:memory': {}
+              'f:terminationMessagePath': {}
+              'f:terminationMessagePolicy': {}
+          'f:dnsPolicy': {}
+          'f:enableServiceLinks': {}
+          'f:hostname': {}
+          'f:imagePullSecrets':
+            .: {}
+            'k:{"name":"harbor"}': {}
+          'f:restartPolicy': {}
+          'f:schedulerName': {}
+          'f:securityContext': {}
+          'f:subdomain': {}
+          'f:terminationGracePeriodSeconds': {}
+      manager: kube-controller-manager
+      operation: Update
+      time: '2023-10-24T13:50:52Z'
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:conditions':
+            'k:{"type":"ContainersReady"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Initialized"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Ready"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+          'f:containerStatuses': {}
+          'f:hostIP': {}
+          'f:phase': {}
+          'f:podIP': {}
+          'f:podIPs':
+            .: {}
+            'k:{"ip":"10.116.1.141"}':
+              .: {}
+              'f:ip': {}
+          'f:startTime': {}
+      manager: kubelet
+      operation: Update
+      subresource: status
+      time: '2024-08-03T12:35:14Z'
+  name: nacos-0
+  namespace: infra
+  ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: nacos
+      uid: 0f3834a4-3d93-4465-9257-21395047c625
+  resourceVersion: '414875801'
+  uid: 947ec623-6e09-4613-8978-4864ca9d43e4
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+              - key: role
+                operator: In
+                values:
+                  - devops
+          weight: 1
+  containers:
+    - env:
+        - name: NACOS_AUTH_TOKEN
+          value: "startable2025"
+        - name: NACOS_REPLICAS
+          value: '3'
+        - name: MYSQL_SERVICE_DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: mysql.db.name
+              name: nacos-cm
+        - name: MYSQL_SERVICE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: mysql.port
+              name: nacos-cm
+        - name: MYSQL_SERVICE_USER
+          valueFrom:
+            configMapKeyRef:
+              key: mysql.user
+              name: nacos-cm
+        - name: MYSQL_SERVICE_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: mysql.host
+              name: nacos-cm
+        - name: MYSQL_SERVICE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: mysql.password
+              name: nacos-cm
+        - name: NACOS_SERVER_PORT
+          value: '8848'
+        - name: NACOS_APPLICATION_PORT
+          value: '8848'
+        - name: PREFER_HOST_MODE
+          value: hostname
+        - name: NACOS_SERVERS
+          value: >-
+            nacos-0.nacos-headless.infra.svc.cluster.local:8848
+            nacos-1.nacos-headless.infra.svc.cluster.local:8848
+            nacos-2.nacos-headless.infra.svc.cluster.local:8848
+      image: 'nacos/nacos-server:v2.0.4'
+      imagePullPolicy: Always
+      name: k8snacos
+      ports:
+        - containerPort: 8848
+          name: client
+          protocol: TCP
+        - containerPort: 7848
+          name: rpc
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 20m
+          memory: 1Gi
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: kube-api-access-xvdlr
+          readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostname: nacos-0
+  imagePullSecrets:
+    - name: harbor
+  nodeName: cn-shanghai.172.19.132.88
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  subdomain: nacos-headless
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  volumes:
+    - name: kube-api-access-xvdlr
+      projected:
+        defaultMode: 420
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              items:
+                - key: ca.crt
+                  path: ca.crt
+              name: kube-root-ca.crt
+          - downwardAPI:
+              items:
+                - fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+                  path: namespace
+status:
+  conditions:
+    - lastProbeTime: null
+      lastTransitionTime: '2023-10-24T13:50:53Z'
+      status: 'True'
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: '2023-10-24T13:51:11Z'
+      status: 'True'
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: '2023-10-24T13:51:11Z'
+      status: 'True'
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: '2023-10-24T13:50:52Z'
+      status: 'True'
+      type: PodScheduled
+  containerStatuses:
+    - containerID: >-
+        docker://9180a368973d0ab82f04002edc64764c0b94da3e37830e9bad791c56e528e966
+      image: 'nacos/nacos-server:v2.0.4'
+      imageID: >-
+        docker-pullable://nacos/nacos-server@sha256:3013935f06f61c06f04e90ae0002c11b38fd4e4c805c606677c9564023db2d4e
+      lastState: {}
+      name: k8snacos
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: '2023-10-24T13:51:11Z'
+  hostIP: 172.19.132.88
+  phase: Running
+  podIP: 10.116.1.141
+  podIPs:
+    - ip: 10.116.1.141
+  qosClass: Burstable
+  startTime: '2023-10-24T13:50:53Z'

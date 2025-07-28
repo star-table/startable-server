@@ -1,0 +1,21 @@
+CREATE TABLE `ppm_pri_issue_view` (
+    `id` bigint NOT NULL COMMENT 'ID',
+    `org_id` bigint NOT NULL COMMENT '组织ID',
+    `project_id` bigint NOT NULL COMMENT '项目ID',
+    `project_object_type_id` bigint NOT NULL DEFAULT 0 COMMENT '所属任务类型 id：需求、任务、缺陷的 id 值',
+    `type` tinyint NOT NULL DEFAULT '1' COMMENT '类型，1：表格视图，2：看板视图，3：照片视图',
+    `view_name` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '视图名称',
+    `config` json NOT NULL COMMENT '视图配置',
+    `remark` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '视图说明',
+    `owner` bigint NOT NULL DEFAULT '0' COMMENT '视图所有者，0为公共视图',
+    `sort` bigint NOT NULL DEFAULT '1' COMMENT '排序',
+    `version` int NOT NULL DEFAULT '1' COMMENT '版本号',
+    `del_flag` tinyint NOT NULL DEFAULT '2' COMMENT '是否删除 1:删除 2:未删除',
+    `creator` bigint NOT NULL DEFAULT '0' COMMENT '创建人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updator` bigint NOT NULL DEFAULT '0' COMMENT '修改人',
+    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY `org_project_type_sort_index` (`org_id`,`project_id`,`project_object_type_id`,`type`,`sort`),
+    KEY `project_id_index` (`project_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='视图';

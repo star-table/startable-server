@@ -1,0 +1,7 @@
+Mysql:
+  Host: 172.19.132.103
+  Port: 33309
+  Usr: root
+  Pwd: JoLNCfUX0-7Xgre_W
+  # 数据库库名
+  Database: polaris_project_manage_resourcesvc_lctest

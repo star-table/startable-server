@@ -1,0 +1,190 @@
+# 用于本地模仿测试环境的配置 edit by suhanyu
+# 先 `copy application.common.local.yaml application.common.test.yaml`
+# 再修改 Mysql，Redis，FeiShuAccessKey 等配置项。
+Server:
+  Port: 8181
+  Name: Nico
+  Domain: https://app-test1.startable.cn
+Mysql:
+  Host: 172.19.166.130
+  Port: 33309
+  Usr: root
+  Pwd: JoLNCfUX0-7Xgre_W
+  Database: polaris_project_manage_appsvc_lctest
+Redis:
+  Host: 172.19.84.54
+  Port: 26379
+  Pwd: sau2Al!tn12
+  Database: 4
+MQ:
+  Mode: Kafka
+  Kafka:
+    NameServers: 47.102.143.45:9092
+    # 推送失败重新消费的次数
+    ReconsumeTimes: 3
+  Topics:
+    IssueTrends:
+      Topic: topic_issue_trends_lctest_fuse_local
+      GroupId: topic_issue_trends_group_lctest_fuse_local
+    ProjectTrends:
+      Topic: topic_project_trends_lctest_fuse_local
+      GroupId: topic_project_trends_group_lctest_fuse_local
+    DailyProjectReportProject:
+      Topic: topic_project_report_project_lctest_fuse_local
+      GroupId: topic_project_report_group_lctest_fuse_local
+    DailyProjectReportMsg:
+      Topic: topic_project_report_msg_lctest_fuse_local
+      GroupId: topic_project_report_msg_group_lctest_fuse_local
+    IssueRemind:
+      Topic: topic_issue_remind_lctest_fuse_local
+      GroupId: topic_issue_remind_group_lctest_fuse_local
+    ImportIssue:
+      Topic: topic_import_issue_lctest_fuse_local
+      GroupId: topic_import_issue_group_lctest_fuse_local
+    OrgMemberChange:
+      Topic: topic_org_member_change_lctest_fuse_local
+      GroupId: topic_org_member_change_group_lctest_fuse_local
+    SyncMemberDept:
+      Topic: topic_org_sync_member_dept_lctest_fuse_local
+      GroupId: topic_org_sync_member_dept_group_lctest_fuse_local
+    FeiShuCallBack:
+      Topic: topic_feishu_callback_lctest_fuse_local
+      GroupId: topic_feishu_callback_group_lctest_fuse_local
+    HelpMessagePushToFeiShu:
+      Topic: topic_help_message_push_to_feishu_lctest_fuse_local
+      GroupId: topic_help_message_push_to_feishu_group_lctest_fuse_local
+    DailyTaskPushToFeishu:
+      Topic: topic_daily_task_push_to_feishu_lctest_fuse_local
+      GroupId: topic_daily_task_push_to_feishu_group_lctest_fuse_local
+    StatisticIterationBurnDownChart:
+      Topic: topic_statistic_iteration_burn_down_chart_lctest_fuse_local
+      GroupId: topic_statistic_iteration_burn_down_chart_group_lctest_fuse_local
+    StatisticProjectIssueBurnDownChart:
+      Topic: topic_statistic_project_issue_burn_down_chart_lctest_fuse_local
+      GroupId: topic_statistic_project_issue_burn_down_chart_group_lctest_fuse_local
+    FeiShuEntranceRemind:
+      Topic: topic_feishu_entrance_remind_lctest_fuse_local
+      GroupId: topic_feishu_entrance_remind_group_lctest_fuse_local
+    FeiShuCallBackMsg:
+      Topic: topic_feishu_callback_msg_lctest_fuse_local
+      GroupId: topic_feishu_callback_msg_group_lctest_fuse_local
+    FeiShuCallBackOrder:
+      Topic: topic_feishu_callback_order_lctest_fuse_local
+      GroupId: topic_feishu_callback_order_group_lctest_fuse_local
+    FeishuShortcut:
+      Topic: topic_feishu_shortcut_lctest_fuse_local
+      GroupId: topice_feishu_shortcut_group_lctest_fuse_local
+    FeishuShortcutPush:
+      Topic: topic_feishu_shortcut_push_lctest_fuse_local
+      GroupId: topice_feishu_shortcut_push_group_lctest_fuse_local
+    ThirdSourceChannelOrder:
+      Topic: topic_third_source_channel_order_lctest_fuse_local
+      GroupId: topic_third_source_channel_order_group_lctest_fuse_local
+    FeishuCommonMsgPush:
+      Topic: topic_feishu_common_msg_push_lctest_fuse_local
+      GroupId: topic_feishu_common_msg_push_group_lctest_fuse_local
+    FeishuCallBackContactScopeChange:
+      Topic: topic_feishu_callback_contact_scope_change_lctest_fuse_local
+      GroupId: topic_feishu_callback_contact_scope_change_group_lctest_fuse_local
+    FeishuCallBackUserChange:
+      Topic: topic_feishu_callback_user_change_lctest_fuse_local
+      GroupId: topic_feishu_callback_user_change_group_lctest_fuse_local
+# 钉钉接入配置（需根据接入情况进行调整）
+DingTalk:
+  SuiteKey: suitejrcjsknkydzg9t4c
+  SuiteSecret: xghk9TC3ZyZR2oLUCsVyiqXwoFAvA6IW05qrfygsNv4Da2yYYx04hDV01qN6gn77
+  Token: "12345645615313"
+  AesKey: "1234567890123456789012345678901234567890123"
+  AppId: 75864
+  AgentId: 1655089021
+  OauthAppId: "dingoayheivmu34mylzrzg"
+  OauthAppSecret: "PeQfl0uBtO3VLr-Feix5cIEWM9Oo81Mhec-SRiO2SPiEPU18fg0YZaB7fHXVkX3U"
+  TemplateId: 987ee560ce5c40a8b1effb76063e27fd
+FeiShu:
+  AppId: cli_a02f641485b9d00b
+  AppSecret: QCGunKWsRQZqzdfEzBVFih5SUTv0Lu8L
+  EventEncryptKey: 41wdyilP0wzZNn69N5GYkhRXr234xMKR
+  EventVerifyToken: QBUiTJGYZ90ynrLJVmu6Dh0loATMhUQt
+  #  AppId: cli_9d5e49aae9ae9101
+  #  AppSecret: HDzPYfWmf8rmhsF2hHSvmhTffojOYCdI
+  #  EventEncryptKey: rME0VeyPmaYOLEOz
+  #  EventVerifyToken: UDbcxblq3u84EQ0xYmkoPgq0ykwiCqw7
+  CardJumpLink:
+    ProjectDailyPcUrl: https://applink.feishu.cn/client/web_app/open?appId={{.AppId}}&path=/feishu/auth?callback=
+    PersonalDailyPcUrl: https://open.feishu.cn/connect/qrconnect/page/sso/?redirect_uri=http%3a%2f%2fapp-test3.startable.cn%2foverview%3fplatform%3dFEISHU&app_id={{.AppId}}&state=test
+    ProjectWelcomeUrl: https://open.feishu.cn/connect/qrconnect/page/sso/?redirect_uri=http%3a%2f%2fapp-test3.startable.cn%2fproject%3fplatform%3dFEISHU&app_id={{.AppId}}&state=test
+WeCom:
+  CorpId: "wwf36b5e6ef0b569ac"
+  SuiteId: "ww9b85ae8ff033ee89"
+  Secrete: "BCLomiIeq8je52OqsXusskBMSMO8LSLnuIxpxMnfhrc"
+  SuiteToken: "JGTVzTz68RVTmpa"
+  SuiteAesKey: "St7DWOVjvUto8Y3C62V37dRMTy5IoCL0quNvVMYH742"
+  CorpDSN: "root:JoLNCfUX0-7Xgre_W@tcp(172.19.166.130:33309)/polaris_project_manage_orgsvc_lctest?charset=utf8mb4&parseTime=True&loc=Local"
+  CustomInfos:
+    - CorpId: "wwf36b5e6ef0b569ac"
+      AgentId: 1000030
+      Secret: "Iv2iqQJo-qi0iIJ3M7Egv194aoUU-Mex7nHcT7mMtSI"
+Application:
+  # 运行模式，1：Saas集群，2：单机部署，3：私有化集群部署，4：私有化单库部署
+  RunMode: 3
+  CacheMode: Redis
+Logs:
+  Default:
+    LogPath: ./run.log
+    Level: info
+    IsConsoleOut: true
+    # 是否写入kafka
+    EnableKafka: false
+  RR:
+    LogPath: ./rr.log
+    Level: info
+    IsConsoleOut: false
+Parameters:
+  CodeConnector: '#'
+  IdBufferThreshold: 0.6
+  MaxPageSize: 100
+  # 服务访问前缀
+  PreUrl:
+    idsvc: http://10.141.5.57:10002
+    msgsvc: http://10.141.0.84:10003
+    appsvc: http://127.0.0.1:10001
+    commonsvc: http://127.0.0.1:10005
+    app: http://127.0.0.1:12000
+    orgsvc: http://10.141.5.254:12001
+    projectsvc: http://127.0.0.1:12002
+    processsvc: http://127.0.0.1:12003
+    resourcesvc: http://127.0.0.1:12004
+    noticesvc: http://127.0.0.1:12005
+    rolesvc: http://10.141.5.254:12001
+    callsvc: http://127.0.0.1:12007
+    trendssvc: http://10.141.0.144:12008
+    websitesvc: http://127.0.0.1:12011
+    compatsvc: http://127.0.0.1:8000
+    usercentersvc: http://192.168.16.7:15001
+    permissionsvc: http://192.168.16.12:10670
+    lesscodeappsvc: http://192.168.16.5:10666
+    lesscodeformsvc: http://192.168.16.3:10667
+    tablesvc: http://10.141.5.71:8000
+    lesscodedatacentersvc: https://lcapi-test.startable.cn
+  Resource:
+     Office: 
+      officeType: collabora
+      collabora: 
+        url: https://officetest.startable.cn/loleaflet/6a844e4/loleaflet.html?WOPISrc=
+        wopi: https://officetest.startable.cn/api/wopi/files/
+        ext: doc,docx,rtf,txt
+      microsoft:
+        url: https://view.officeapps.live.com/op/view.aspx?src=
+        wopi: 
+        ext: doc,docx,wps,rtf,txt
+        
+OSS:
+  LocalDomain: http://127.0.0.1:12010
+Jaeger:
+  UdpAddress: 192.168.88.222:6831
+  TraceService: polaris-trace-local
+  SamplerType: const
+  SamplerParam: 1
+
+
+

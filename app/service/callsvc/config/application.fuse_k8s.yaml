@@ -1,0 +1,22 @@
+Mysql:
+  Host: 172.19.132.103
+  Port: 33309
+  Usr: root
+  Pwd: JoLNCfUX0-7Xgre_W
+  # 数据库库名
+  Database: polaris_project_manage_appsvc_lctest
+Redis:
+  Database: 4
+MQ:
+  Topics:
+    IssueTrends:
+      Topic: topic_issue_trends_fuse_k8s
+      GroupId: topic_issue_trends_group_fuse_k8s
+    ProjectTrends:
+      Topic: topic_project_trends_fuse_k8s
+      GroupId: topic_project_trends_group_fuse_k8s
+Parameters:
+  EsIndex:
+    Issue: issue_index_lctest
+    Project: project_index_lctest
+    Trends: trends_index_lctest

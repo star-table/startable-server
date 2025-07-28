@@ -1,0 +1,2 @@
+ALTER TABLE ppm_org_user_config DROP COLUMN user_view_location_config;
+ALTER TABLE ppm_org_user_config DROP COLUMN collaborate_message_status;

@@ -1,0 +1,26 @@
+Mysql:
+#  Host: 47.102.143.45
+#  Port: 33307
+#  Usr: pminfo
+#  Pwd: J3SP*s321&s2~
+  # 数据库库名
+  Database: polaris_project_manage_lctest
+MQ:
+  Topics:
+    IssueTrends:
+      Topic: topic_issue_trends_test
+      GroupId: topic_issue_trends_group_test
+    ProjectTrends:
+      Topic: topic_project_trends_test
+      GroupId: topic_project_trends_group_test
+DingTalk:
+  SuiteKey: suiteish9wqgeowqiyjfw
+  SuiteSecret: 2HSS0dPC84mKhOggvHw947GIHP0q5_HYDSKw7Z7gdW-yfnOmAW2HO4wmWSxsZyef
+  Token: 4j8vrfryiifl6flcq6t0erz5qhf6femg6j1177rleua
+  AesKey: d1huiqvhoqmt6obz2zox5dscsq43xeoiar9k7sglruq
+  AppId: 25408
+Parameters:
+  EsIndex:
+    Issue: issue_index_test
+    Project: project_index_test
+    Trends: trends_index_test
