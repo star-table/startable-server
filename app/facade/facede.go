@@ -9,7 +9,7 @@ import (
 
 	"google.golang.org/protobuf/proto"
 
-	"gitea.bjx.cloud/LessCode/go-common/utils/unsafe"
+	"github.com/star-table/startable-server/go-common/utils/unsafe"
 
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"

@@ -9,7 +9,9 @@ import (
 	"gitea.bjx.cloud/allstar/dingtalk-sdk-golang"
 	platform_sdk "gitea.bjx.cloud/allstar/platform-sdk"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/msgfacade"
+	"github.com/gin-gonic/gin"
+	"github.com/jtolds/gls"
+	"github.com/star-table/startable-server/app/facade/msgfacade"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
 	consts2 "github.com/star-table/startable-server/common/core/consts"
@@ -20,8 +22,6 @@ import (
 	"github.com/star-table/startable-server/common/core/util/stack"
 	"github.com/star-table/startable-server/common/core/util/strs"
 	"github.com/star-table/startable-server/common/core/util/uuid"
-	"github.com/gin-gonic/gin"
-	"github.com/jtolds/gls"
 )
 
 type DingTalkReq struct {

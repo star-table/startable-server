@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/dao"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
 	"github.com/star-table/startable-server/app/facade/idfacade"
+	"github.com/star-table/startable-server/app/service/orgsvc/dao"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/copyer"

@@ -12,8 +12,8 @@ import (
 
 	platform_sdk "gitea.bjx.cloud/allstar/platform-sdk"
 	platformVo "gitea.bjx.cloud/allstar/platform-sdk/vo"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
 	"github.com/star-table/startable-server/app/facade/idfacade"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/json"

@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/app/service/projectsvc/test"
 	"github.com/star-table/startable-server/common/extra/third_platform_sdk"
 
@@ -15,12 +15,12 @@ import (
 
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
 
+	"github.com/smartystreets/goconvey/convey"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/util"
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/vo"
-	"github.com/smartystreets/goconvey/convey"
 	"upper.io/db.v3"
 )
 

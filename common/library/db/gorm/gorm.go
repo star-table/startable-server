@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	gormopentracing "gitea.bjx.cloud/LessCode/go-common/pkg/gorm/opentracing"
 	"github.com/star-table/startable-server/common/core/config"
+	gormopentracing "github.com/star-table/startable-server/go-common/pkg/gorm/opentracing"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

@@ -6,17 +6,17 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/IBM/sarama"
+	"github.com/getsentry/sentry-go"
+	"github.com/natefinch/lumberjack"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/model"
 	"github.com/star-table/startable-server/common/core/threadlocal"
 	"github.com/star-table/startable-server/common/core/util/sentry/client"
 	"github.com/star-table/startable-server/common/core/util/strs"
-	"github.com/Shopify/sarama"
-	"github.com/getsentry/sentry-go"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 // 日志包的封装

@@ -3,10 +3,10 @@ package orgsvc
 import (
 	"fmt"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
-	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/google/martian/log"
 	"github.com/spf13/cast"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
+	"github.com/star-table/startable-server/common/core/consts"
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
 	"github.com/star-table/startable-server/common/core/threadlocal"

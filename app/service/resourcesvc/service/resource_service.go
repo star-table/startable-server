@@ -12,7 +12,7 @@ import (
 	vo2 "gitea.bjx.cloud/allstar/feishu-sdk-golang/core/model/vo"
 	platform_sdk "gitea.bjx.cloud/allstar/platform-sdk"
 	sdkVo "gitea.bjx.cloud/allstar/platform-sdk/vo"
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/idfacade"
+	"github.com/star-table/startable-server/app/facade/idfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/app/facade/tablefacade"
 	"github.com/star-table/startable-server/common/core/consts"

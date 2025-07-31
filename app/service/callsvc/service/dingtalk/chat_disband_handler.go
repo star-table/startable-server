@@ -1,7 +1,7 @@
 package callsvc
 
 import (
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/orgfacade"
+	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"

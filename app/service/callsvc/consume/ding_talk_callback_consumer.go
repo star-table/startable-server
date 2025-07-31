@@ -3,7 +3,7 @@ package callsvc
 import (
 	"sync"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/msgfacade"
+	"github.com/star-table/startable-server/app/facade/msgfacade"
 	"github.com/star-table/startable-server/common/core/util/asyn"
 
 	"github.com/star-table/startable-server/common/core/config"

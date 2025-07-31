@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/domain"
+	"github.com/star-table/startable-server/app/service/orgsvc/domain"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/test"
 

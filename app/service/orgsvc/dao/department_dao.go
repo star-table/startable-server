@@ -1,11 +1,11 @@
 package orgsvc
 
 import (
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
+	"github.com/google/martian/log"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/bo"
-	"github.com/google/martian/log"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )

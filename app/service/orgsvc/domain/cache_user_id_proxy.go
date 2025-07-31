@@ -3,9 +3,10 @@ package orgsvc
 import (
 	"gitea.bjx.cloud/allstar/feishu-sdk-golang/sdk"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
+	"github.com/pkg/errors"
 	"github.com/star-table/startable-server/app/facade/idfacade"
 	sconsts "github.com/star-table/startable-server/app/service"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util"
@@ -16,7 +17,6 @@ import (
 	"github.com/star-table/startable-server/common/library/cache"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/bo"
-	"github.com/pkg/errors"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )

@@ -5,7 +5,7 @@ import (
 	"gitea.bjx.cloud/allstar/dingtalk-sdk-golang/response"
 	platform_sdk "gitea.bjx.cloud/allstar/platform-sdk"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/orgfacade"
+	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"

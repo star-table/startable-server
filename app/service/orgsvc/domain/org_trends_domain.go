@@ -3,7 +3,7 @@ package orgsvc
 import (
 	"time"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/trendsfacade"
+	"github.com/star-table/startable-server/app/facade/trendsfacade"
 	"github.com/star-table/startable-server/common/model/bo"
 	"github.com/star-table/startable-server/common/model/vo/trendsvo"
 )

@@ -1,8 +1,8 @@
 package orgsvc
 
 import (
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/domain"
 	"github.com/star-table/startable-server/app/service"
+	"github.com/star-table/startable-server/app/service/orgsvc/domain"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/util/slice"
 	"github.com/star-table/startable-server/common/model/vo"

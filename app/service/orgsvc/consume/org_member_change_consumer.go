@@ -2,7 +2,7 @@ package orgsvc
 
 import (
 	platform_sdk "gitea.bjx.cloud/allstar/platform-sdk"
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/msgfacade"
+	"github.com/star-table/startable-server/app/facade/msgfacade"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errors"

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
 	"github.com/star-table/startable-server/app/facade/idfacade"
 	"github.com/star-table/startable-server/app/facade/msgfacade"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/library/cache"
 
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"

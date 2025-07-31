@@ -9,7 +9,7 @@ import (
 	"github.com/star-table/startable-server/common/core/errors"
 	"github.com/star-table/startable-server/common/core/model"
 	"github.com/star-table/startable-server/common/core/util/json"
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 )
 
 type exampleConsumerGroupHandler struct {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"sync/atomic"
 
-	"gitea.bjx.cloud/LessCode/go-common/utils/stack"
+	"github.com/star-table/startable-server/go-common/utils/stack"
 
 	emitter "gitea.bjx.cloud/allstar/emitter-go-client"
 	"github.com/go-kratos/kratos/v2/log"

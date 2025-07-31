@@ -1,7 +1,7 @@
 package orgsvc
 
 import (
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/projectfacade"
+	"github.com/star-table/startable-server/app/facade/projectfacade"
 	domain "github.com/star-table/startable-server/app/service"
 	orgdomain "github.com/star-table/startable-server/app/service"
 	"github.com/star-table/startable-server/common/core/consts"

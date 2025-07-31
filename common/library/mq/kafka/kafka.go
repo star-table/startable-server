@@ -14,7 +14,7 @@ import (
 	"github.com/star-table/startable-server/common/core/util/strs"
 	"github.com/star-table/startable-server/common/core/util/uuid"
 	"github.com/star-table/startable-server/common/library/cache"
-	"github.com/Shopify/sarama"
+	"github.com/IBM/sarama"
 	"go.uber.org/zap"
 )
 

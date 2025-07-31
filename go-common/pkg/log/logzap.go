@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"gitea.bjx.cloud/LessCode/go-common/pkg/sentry/client"
 	"github.com/getsentry/sentry-go"
 	"github.com/natefinch/lumberjack"
+	"github.com/star-table/startable-server/go-common/pkg/sentry/client"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

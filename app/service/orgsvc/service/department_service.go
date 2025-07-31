@@ -3,8 +3,9 @@ package orgsvc
 import (
 	"strconv"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/facade/idfacade"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
+	"github.com/google/martian/log"
+	"github.com/star-table/startable-server/app/facade/idfacade"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util"
@@ -15,7 +16,6 @@ import (
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
-	"github.com/google/martian/log"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )

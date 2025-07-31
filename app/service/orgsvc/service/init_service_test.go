@@ -5,17 +5,17 @@ import (
 	"fmt"
 	"testing"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/consts"
+	"github.com/star-table/startable-server/app/service/orgsvc/consts"
 	"github.com/star-table/startable-server/common/extra/third_platform_sdk"
 	"github.com/star-table/startable-server/common/test"
 
+	"github.com/google/martian/log"
+	"github.com/smartystreets/goconvey/convey"
 	consts2 "github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/library/cache"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/bo"
-	"github.com/google/martian/log"
-	"github.com/smartystreets/goconvey/convey"
 	"upper.io/db.v3/lib/sqlbuilder"
 )
 

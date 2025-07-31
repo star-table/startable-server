@@ -8,11 +8,11 @@ import (
 
 	"github.com/go-kratos/kratos/v2/metadata"
 
-	pkgErrors "gitea.bjx.cloud/LessCode/go-common/pkg/errors"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
+	pkgErrors "github.com/star-table/startable-server/go-common/pkg/errors"
 	"go.opentelemetry.io/otel/trace"
 )
 

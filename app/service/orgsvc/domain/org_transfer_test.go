@@ -6,13 +6,14 @@ import (
 	"strings"
 	"testing"
 
-	"gitea.bjx.cloud/allstar/polaris-backend/app/service/orgsvc/dao"
+	"github.com/smartystreets/goconvey/convey"
+	"github.com/spf13/cast"
+	"github.com/star-table/startable-server/app/service/orgsvc/dao"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/util/id/snowflake"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/test"
-	"github.com/smartystreets/goconvey/convey"
-	"github.com/spf13/cast"
 	"upper.io/db.v3/lib/sqlbuilder"
 )
 

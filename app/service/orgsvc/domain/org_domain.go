@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cast"
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/dao"
-	"gitea.bjx.cloud/allstar/polaris-backend/service/platform/orgsvc/po"
 	"github.com/star-table/startable-server/app/facade/idfacade"
+	"github.com/star-table/startable-server/app/service/orgsvc/dao"
+	"github.com/star-table/startable-server/app/service/orgsvc/po"
 	"github.com/star-table/startable-server/common/core/threadlocal"
 	"github.com/star-table/startable-server/common/core/util/asyn"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"

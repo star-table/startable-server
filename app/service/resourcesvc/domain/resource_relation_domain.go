@@ -1,8 +1,8 @@
 package resourcesvc
 
 import (
-	"gitea.bjx.cloud/allstar/polaris-backend/app/service/resourcesvc/po"
 	"github.com/star-table/startable-server/app/facade/idfacade"
+	"github.com/star-table/startable-server/app/service/resourcesvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/copyer"
