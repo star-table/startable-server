@@ -35,17 +35,18 @@ import (
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/logger"
+
+	"github.com/DeanThompson/ginpprof"
+	"github.com/getsentry/sentry-go"
+	"github.com/gin-gonic/gin"
+	kratosNacos "github.com/go-kratos/kratos/contrib/registry/nacos/v2"
+	"github.com/opentracing/opentracing-go"
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/core/util/network"
 	"github.com/star-table/startable-server/common/extra/gin/mid"
 	"github.com/star-table/startable-server/common/extra/gin/mvc"
 	"github.com/star-table/startable-server/common/extra/trace/gin2micro"
 	trace "github.com/star-table/startable-server/common/extra/trace/jaeger"
-	"github.com/DeanThompson/ginpprof"
-	"github.com/getsentry/sentry-go"
-	"github.com/gin-gonic/gin"
-	kratosNacos "github.com/go-kratos/kratos/contrib/registry/nacos/v2"
-	"github.com/opentracing/opentracing-go"
 )
 
 var log = logger.GetDefaultLogger()
@@ -176,12 +177,13 @@ func main() {
 	r.Use(mid.CorsMiddleware())
 	r.Use(mid.AuthMiddleware())
 
-	version := ""
-	postGreeter := api.PostGreeter{Greeter: mvc.NewPostGreeter(applicationName, host, port, version)}
-	getGreeter := api.GetGreeter{Greeter: mvc.NewGetGreeter(applicationName, host, port, version)}
+	version := "v1"
 
-	//build
+	//build facade (保留原有的facade构建功能)
 	if build {
+		// 为了保持facade构建功能，临时创建mvc greeter
+		postGreeter := api.PostGreeter{Greeter: mvc.NewPostGreeter(applicationName, host, port, "")}
+		getGreeter := api.GetGreeter{Greeter: mvc.NewGetGreeter(applicationName, host, port, "")}
 		facadeBuilder := mvc.FacadeBuilder{
 			StorageDir: "./../../../facade/projectfacade",
 			Package:    "projectfacade",
@@ -223,9 +225,8 @@ func main() {
 		go consume.IssueRemindConsumer()           // 任务截止日期提醒
 	}
 
-	ginHandler := mvc.NewGinHandler(r)
-	ginHandler.RegisterGreeter(&postGreeter)
-	ginHandler.RegisterGreeter(&getGreeter)
+	// 注册新的路由系统，替代mvc自动路由注册
+	api.RegisterRoutes(r, applicationName, version)
 
 	if env != consts.RunEnvNull {
 		log.Info("开启pprof监控")

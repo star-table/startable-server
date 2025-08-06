@@ -1,20 +1,42 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
 	"github.com/star-table/startable-server/common/core/consts"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) BatchCreateIssue(reqVo *projectvo.BatchCreateIssueReqVo) *projectvo.BatchCreateIssueRespVo {
-	data, userDepts, relateData, err := service.BatchCreateIssue(reqVo, false, &projectvo.TriggerBy{
+func BatchCreateIssue(c *gin.Context) {
+	var reqVo projectvo.BatchCreateIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.BatchCreateIssueRespVo{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
+	data, userDepts, relateData, err := service.BatchCreateIssue(&reqVo, false, &projectvo.TriggerBy{
 		TriggerBy: consts.TriggerByNormal,
 	}, "", 0)
-	return &projectvo.BatchCreateIssueRespVo{Data: data, UserDepts: userDepts, RelateData: relateData, Err: vo.NewErr(err)}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.BatchCreateIssueRespVo{Data: data, UserDepts: userDepts, RelateData: relateData, Err: vo.NewErr(err)})
 }
 
-func (PostGreeter) BatchUpdateIssue(reqVo *projectvo.BatchUpdateIssueReqVo) *vo.VoidErr {
+func BatchUpdateIssue(c *gin.Context) {
+	var reqVo projectvo.BatchUpdateIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, vo.VoidErr{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
 	err := service.BatchUpdateIssue(&projectvo.BatchUpdateIssueReqInnerVo{
 		OrgId:        reqVo.OrgId,
 		UserId:       reqVo.UserId,
@@ -30,15 +52,41 @@ func (PostGreeter) BatchUpdateIssue(reqVo *projectvo.BatchUpdateIssueReqVo) *vo.
 	}, false, &projectvo.TriggerBy{
 		TriggerBy: consts.TriggerByNormal,
 	})
-	return &vo.VoidErr{Err: vo.NewErr(err)}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, vo.VoidErr{Err: vo.NewErr(err)})
 }
 
-func (PostGreeter) BatchAuditIssue(reqVo *projectvo.BatchAuditIssueReqVo) *vo.DataRespVo {
-	issueIds, err := service.BatchAuditIssue(reqVo)
-	return &vo.DataRespVo{Data: issueIds, Err: vo.NewErr(err)}
+func BatchAuditIssue(c *gin.Context) {
+	var reqVo projectvo.BatchAuditIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, vo.DataRespVo{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
+	issueIds, err := service.BatchAuditIssue(&reqVo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, vo.DataRespVo{Data: issueIds, Err: vo.NewErr(err)})
 }
 
-func (PostGreeter) BatchUrgeIssue(reqVo *projectvo.BatchUrgeIssueReqVo) *vo.DataRespVo {
-	issueIds, err := service.BatchUrgeIssue(reqVo)
-	return &vo.DataRespVo{Data: issueIds, Err: vo.NewErr(err)}
+func BatchUrgeIssue(c *gin.Context) {
+	var reqVo projectvo.BatchUrgeIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, vo.DataRespVo{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
+	issueIds, err := service.BatchUrgeIssue(&reqVo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, vo.DataRespVo{Data: issueIds, Err: vo.NewErr(err)})
 }

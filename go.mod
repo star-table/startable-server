@@ -1,6 +1,8 @@
 module github.com/star-table/startable-server
 
-go 1.24.0
+go 1.23.0
+
+toolchain go1.24.0
 
 require (
 	gitea.bjx.cloud/LessCode/interface v0.0.0-00010101000000-000000000000
@@ -16,11 +18,42 @@ require (
 	github.com/penglongli/gin-metrics v0.1.10
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/spf13/cast v1.5.0
+	github.com/star-table/startable-server/app/facade v0.0.0-00010101000000-000000000000
+	github.com/star-table/startable-server/app/service v0.0.0-00010101000000-000000000000
+	github.com/star-table/startable-server/common v0.0.0-00010101000000-000000000000
+	github.com/star-table/startable-server/go-common v0.0.0-00010101000000-000000000000
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.6.7
 	github.com/vektah/gqlparser/v2 v2.0.1
-	google.golang.org/grpc v1.53.0
+
+)
+
+require (
+	gitea.bjx.cloud/allstar/dingtalk-sdk-golang v0.0.0-00010101000000-000000000000 // indirect
+	github.com/HdrHistogram/hdrhistogram-go v1.1.2 // indirect
+	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de // indirect
+	github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394 // indirect
+	github.com/bwmarrin/snowflake v0.3.0 // indirect
+	github.com/cznic/mathutil v0.0.0-20181122101859-297441e03548 // indirect
+	github.com/cznic/sortutil v0.0.0-20181122101858-f5f958428db8 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20250731084034-f7f150c3f139 // indirect
+	github.com/go-redis/redis/v8 v8.11.5 // indirect
+	github.com/gomodule/redigo v1.9.2 // indirect
+	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
+	github.com/polaris-team/dingtalk-sdk-golang v0.0.9 // indirect
+	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
+	github.com/richardlehane/mscfb v1.0.4 // indirect
+	github.com/richardlehane/msoleps v1.0.3 // indirect
+	github.com/tealeg/xlsx/v2 v2.0.1 // indirect
+	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
+	github.com/xuri/excelize/v2 v2.6.1 // indirect
+	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
+	google.golang.org/genproto v0.0.0-20231212172506-995d672761c0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20231211222908-989df2bf70f3 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20231211222908-989df2bf70f3 // indirect
+	google.golang.org/grpc v1.60.0 // indirect
 )
 
 require (
@@ -50,7 +83,7 @@ require (
 	github.com/getsentry/sentry-go v0.34.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-errors/errors v1.4.2 // indirect
-	github.com/go-kratos/kratos/v2 v2.5.3 // indirectcl
+	github.com/go-kratos/kratos/v2 v2.8.4 // indirect; indirectcl
 	github.com/go-laoji/wecom-go-sdk v0.0.0-00010101000000-000000000000 // indirect
 	github.com/go-openapi/jsonpointer v0.19.3 // indirect
 	github.com/go-openapi/jsonreference v0.19.3 // indirect
@@ -154,6 +187,8 @@ require (
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.53.0
 
+replace github.com/go-kratos/kratos/v2 => github.com/go-kratos/kratos/v2 v2.5.3
+
 replace gitea.bjx.cloud/LessCode/interface => gitea.startable.cn/LessCode/interface v0.0.0-20240110123935-7655bac3ad8a
 
 replace gitea.bjx.cloud/allstar/common => gitea.startable.cn/allstar/common v1.9.64
@@ -169,3 +204,11 @@ replace github.com/go-laoji/wecom-go-sdk => gitea.startable.cn/LessCode/wecom-go
 replace upper.io/db.v3 v3.7.1+incompatible => gitea.startable.cn/allstar/db v0.3.74
 
 replace gitea.bjx.cloud/allstar/emitter-go-client => gitea.startable.cn/allstar/emitter-go-client v1.0.1
+
+replace github.com/star-table/startable-server/app/facade => ./app/facade
+
+replace github.com/star-table/startable-server/app/service => ./app/service
+
+replace github.com/star-table/startable-server/common => ./common
+
+replace github.com/star-table/startable-server/go-common => ./go-common

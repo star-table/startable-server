@@ -1,74 +1,186 @@
-package orgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	"github.com/star-table/startable-server/common/core/errs"
+	"github.com/star-table/startable-server/common/core/logger"
 )
 
-func (GetGreeter) GetWeiXinJsAPISign(input orgvo.JsAPISignReq) orgvo.GetJsAPISignRespVo {
-	res, err := service.GetWeiXinJsAPISign(input)
-	return orgvo.GetJsAPISignRespVo{Err: vo.NewErr(err), GetJsAPISign: res}
+func GetWeiXinJsAPISign(c *gin.Context) {
+	var input orgvo.JsAPISignReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetWeiXinJsAPISign bind request failed", err)
+		response := orgvo.GetJsAPISignRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.GetWeiXinJsAPISign(input)
+	response := orgvo.GetJsAPISignRespVo{Err: vo.NewErr(err), GetJsAPISign: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (GetGreeter) GetWeiXinRegisterUrl(input orgvo.GetRegisterUrlReq) orgvo.GetRegisterUrlResp {
-	res, err := service.GetWeiXinRegisterUrl()
-	return orgvo.GetRegisterUrlResp{Err: vo.NewErr(err), Data: res}
+func GetWeiXinRegisterUrl(c *gin.Context) {
+	var input orgvo.GetRegisterUrlReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetWeiXinRegisterUrl bind request failed", err)
+		response := orgvo.GetRegisterUrlResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.GetWeiXinRegisterUrl()
+	response := orgvo.GetRegisterUrlResp{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (GetGreeter) GetWeiXinInstallUrl(input orgvo.GetRegisterUrlReq) orgvo.GetRegisterUrlResp {
-	res, err := service.GetWeiXinInstallUrl()
-	return orgvo.GetRegisterUrlResp{Err: vo.NewErr(err), Data: res}
+func GetWeiXinInstallUrl(c *gin.Context) {
+	var input orgvo.GetRegisterUrlReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetWeiXinInstallUrl bind request failed", err)
+		response := orgvo.GetRegisterUrlResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.GetWeiXinInstallUrl()
+	response := orgvo.GetRegisterUrlResp{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) AuthWeiXinCode(input orgvo.AuthWeiXinCodeReqVo) orgvo.AuthDingCodeRespVo {
-	res, err := service.AuthWeiXinCode(input)
-	return orgvo.AuthDingCodeRespVo{
+func AuthWeiXinCode(c *gin.Context) {
+	var input orgvo.AuthWeiXinCodeReqVo
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("AuthWeiXinCode bind request failed", err)
+		response := orgvo.AuthDingCodeRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.AuthWeiXinCode(input)
+	response := orgvo.AuthDingCodeRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
 	}
+	c.JSON(http.StatusOK, response)
 }
 
 // PersonWeiXinLogin 个人微信登陆
-func (PostGreeter) PersonWeiXinLogin(input orgvo.PersonWeiXinLoginReqVo) orgvo.PersonWeiXinLoginRespVo {
-	res, err := service.PersonWeiXinLogin(&input)
-	return orgvo.PersonWeiXinLoginRespVo{
+func PersonWeiXinLogin(c *gin.Context) {
+	var input orgvo.PersonWeiXinLoginReqVo
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("PersonWeiXinLogin bind request failed", err)
+		response := orgvo.PersonWeiXinLoginRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.PersonWeiXinLogin(&input)
+	response := orgvo.PersonWeiXinLoginRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) PersonWeiXinBindExistAccount(input orgvo.PersonWeiXinBindExistAccountReq) vo.CommonRespVo {
-	err := service.PersonWeiXinBindExistAccount(&input)
-	return vo.CommonRespVo{Err: vo.NewErr(err)}
+func PersonWeiXinBindExistAccount(c *gin.Context) {
+	var input orgvo.PersonWeiXinBindExistAccountReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("PersonWeiXinBindExistAccount bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.PersonWeiXinBindExistAccount(&input)
+	response := vo.CommonRespVo{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) PersonWeiXinBind(input orgvo.PersonWeiXinBindReq) orgvo.PersonWeiXinBindResp {
-	res, err := service.PersonWeiXinBind(input.Data)
-	return orgvo.PersonWeiXinBindResp{Err: vo.NewErr(err), Data: res}
+func PersonWeiXinBind(c *gin.Context) {
+	var input orgvo.PersonWeiXinBindReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("PersonWeiXinBind bind request failed", err)
+		response := orgvo.PersonWeiXinBindResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.PersonWeiXinBind(input.Data)
+	response := orgvo.PersonWeiXinBindResp{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (GetGreeter) PersonWeiXinQrCode(input orgvo.PersonWeiXinQrCodeReqVo) orgvo.PersonWeiXinQrCodeRespVo {
-	res, err := service.PersonWeiXinQrCode(&input)
-	return orgvo.PersonWeiXinQrCodeRespVo{Err: vo.NewErr(err), Data: res}
+func PersonWeiXinQrCode(c *gin.Context) {
+	var input orgvo.PersonWeiXinQrCodeReqVo
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("PersonWeiXinQrCode bind request failed", err)
+		response := orgvo.PersonWeiXinQrCodeRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.PersonWeiXinQrCode(&input)
+	response := orgvo.PersonWeiXinQrCodeRespVo{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (GetGreeter) PersonWeiXinQrCodeScan(input orgvo.QrCodeScanReq) vo.CommonRespVo {
-	err := service.PersonWeiXinQrCodeScan(&input)
-	return vo.CommonRespVo{Err: vo.NewErr(err)}
+func PersonWeiXinQrCodeScan(c *gin.Context) {
+	var input orgvo.QrCodeScanReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("PersonWeiXinQrCodeScan bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.PersonWeiXinQrCodeScan(&input)
+	response := vo.CommonRespVo{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (GetGreeter) CheckPersonWeiXinQrCode(input orgvo.CheckQrCodeScanReq) orgvo.CheckQrCodeScanResp {
-	res, err := service.CheckPersonWeiXinQrCode(&input)
-	return orgvo.CheckQrCodeScanResp{Err: vo.NewErr(err), Data: res}
+func CheckPersonWeiXinQrCode(c *gin.Context) {
+	var input orgvo.CheckQrCodeScanReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("CheckPersonWeiXinQrCode bind request failed", err)
+		response := orgvo.CheckQrCodeScanResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.CheckPersonWeiXinQrCode(&input)
+	response := orgvo.CheckQrCodeScanResp{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) CheckMobileHasBind(input orgvo.CheckMobileHasBindReq) orgvo.CheckMobileHasBindResp {
-	res, err := service.CheckMobileHasBind(input.Input)
-	return orgvo.CheckMobileHasBindResp{Err: vo.NewErr(err), Data: res}
+func CheckMobileHasBind(c *gin.Context) {
+	var input orgvo.CheckMobileHasBindReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("CheckMobileHasBind bind request failed", err)
+		response := orgvo.CheckMobileHasBindResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.CheckMobileHasBind(input.Input)
+	response := orgvo.CheckMobileHasBindResp{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) UnbindThirdAccount(input orgvo.UnbindAccountReq) vo.CommonRespVo {
-	err := service.UnbindThirdAccount(input)
-	return vo.CommonRespVo{Err: vo.NewErr(err)}
+func UnbindThirdAccount(c *gin.Context) {
+	var input orgvo.UnbindAccountReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("UnbindThirdAccount bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.UnbindThirdAccount(input)
+	response := vo.CommonRespVo{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }

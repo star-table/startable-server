@@ -1,4 +1,4 @@
-package commonsvc
+package service
 
 import (
 	"github.com/star-table/startable-server/common/core/errs"

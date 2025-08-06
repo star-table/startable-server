@@ -1,6 +1,9 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
 	"github.com/star-table/startable-server/common/core/consts"
@@ -9,12 +12,19 @@ import (
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) OpenCreateProject(reqVo projectvo.CreateProjectReqVo) projectvo.ProjectRespVo {
+func OpenCreateProject(c *gin.Context) {
+	var reqVo projectvo.CreateProjectReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.ProjectRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Project: nil})
+		return
+	}
+
 	// 校验操作人是否存在
 	_, err := orgfacade.GetBaseUserInfoRelaxed(reqVo.OrgId, reqVo.UserId)
 	if err != nil {
-		log.Error(err)
-		return projectvo.ProjectRespVo{Err: vo.NewErr(errs.OperatorInvalid), Project: nil}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	// // common/core/consts/business_consts.go:83
@@ -29,31 +39,64 @@ func (PostGreeter) OpenCreateProject(reqVo projectvo.CreateProjectReqVo) project
 	reqVo.Input.PublicStatus = projectStatus
 
 	res, err := service.CreateProjectWithoutAuth(reqVo)
-	return projectvo.ProjectRespVo{Err: vo.NewErr(err), Project: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.ProjectRespVo{Err: vo.NewErr(err), Project: res})
 }
 
-func (PostGreeter) OpenProjects(reqVo projectvo.ProjectsRepVo) projectvo.ProjectsRespVo {
+func OpenProjects(c *gin.Context) {
+	var reqVo projectvo.ProjectsRepVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.ProjectsRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), ProjectList: nil})
+		return
+	}
+
 	res, err := service.Projects(reqVo)
-	return projectvo.ProjectsRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.ProjectsRespVo{
 		Err:         vo.NewErr(err),
 		ProjectList: res,
-	}
+	})
 }
 
-func (PostGreeter) OpenProjectInfo(reqVo projectvo.ProjectInfoReqVo) projectvo.ProjectInfoRespVo {
+func OpenProjectInfo(c *gin.Context) {
+	var reqVo projectvo.ProjectInfoReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.ProjectInfoRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), ProjectInfo: nil})
+		return
+	}
+
 	res, err := service.ProjectInfo(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.ProjectInfoRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.ProjectInfoRespVo{
 		Err:         vo.NewErr(err),
 		ProjectInfo: res,
-	}
+	})
 }
 
-func (PostGreeter) OpenUpdateProject(reqVo projectvo.UpdateProjectReqVo) projectvo.ProjectRespVo {
+func OpenUpdateProject(c *gin.Context) {
+	var reqVo projectvo.UpdateProjectReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.ProjectRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Project: nil})
+		return
+	}
+
 	// 校验操作人是否存在
 	_, err := orgfacade.GetBaseUserInfoRelaxed(reqVo.OrgId, reqVo.UserId)
 	if err != nil {
-		log.Error(err)
-		return projectvo.ProjectRespVo{Err: vo.NewErr(errs.OperatorInvalid), Project: nil}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	//兼容updateFields
@@ -115,77 +158,144 @@ func (PostGreeter) OpenUpdateProject(reqVo projectvo.UpdateProjectReqVo) project
 
 	judgeErr := service.JudgeProjectFiling(reqVo.OrgId, reqVo.Input.ID)
 	if judgeErr != nil {
-		log.Error(judgeErr)
-		return projectvo.ProjectRespVo{Err: vo.NewErr(judgeErr), Project: nil}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": judgeErr.Error()})
+		return
 	}
 
 	res, err := service.UpdateProjectWithoutAuth(reqVo)
-	return projectvo.ProjectRespVo{Err: vo.NewErr(err), Project: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.ProjectRespVo{Err: vo.NewErr(err), Project: res})
 }
 
-func (PostGreeter) OpenDeleteProject(reqVo projectvo.ProjectIdReqVo) vo.CommonRespVo {
+func OpenDeleteProject(c *gin.Context) {
+	var reqVo projectvo.ProjectIdReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, vo.CommonRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Void: nil})
+		return
+	}
+
 	// 校验操作人是否存在
 	_, err := orgfacade.GetBaseUserInfoRelaxed(reqVo.OrgId, reqVo.UserId)
 	if err != nil {
-		log.Error(err)
-		return vo.CommonRespVo{Err: vo.NewErr(errs.OperatorInvalid), Void: nil}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	judgeErr := service.JudgeProjectFiling(reqVo.OrgId, reqVo.ProjectId)
 	if judgeErr != nil {
-		log.Error(judgeErr)
-		return vo.CommonRespVo{
-			Err:  vo.NewErr(judgeErr),
-			Void: nil,
-		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": judgeErr.Error()})
+		return
 	}
 
 	res, err := service.DeleteProjectWithoutAuth(reqVo.OrgId, reqVo.UserId, reqVo.ProjectId)
-	return vo.CommonRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{
 		Err:  vo.NewErr(err),
 		Void: res,
-	}
+	})
 }
 
 // 优先级 废弃
-func (GetGreeter) OpenGetPriorityList(reqVo projectvo.OpenPriorityListReqVo) projectvo.OpenSomeAttrListRespVo {
+func OpenGetPriorityList(c *gin.Context) {
+	var reqVo projectvo.OpenPriorityListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.OpenSomeAttrListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	resp, err := service.OpenPriorityList(reqVo.OrgId)
-	return projectvo.OpenSomeAttrListRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.OpenSomeAttrListRespVo{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
 // ProjectObjectType 废弃
-func (GetGreeter) OpenGetProjectObjectTypeList(reqVo projectvo.OpenPriorityListReqVo) projectvo.OpenSomeAttrListRespVo {
+func OpenGetProjectObjectTypeList(c *gin.Context) {
+	var reqVo projectvo.OpenPriorityListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.OpenSomeAttrListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	resp, err := service.OpenGetProjectObjectTypeList(reqVo)
-	return projectvo.OpenSomeAttrListRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.OpenSomeAttrListRespVo{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
-func (GetGreeter) OpenGetIterationList(reqVo projectvo.OpenGetIterationListReqVo) projectvo.OpenGetIterationListRespVo {
+func OpenGetIterationList(c *gin.Context) {
+	var reqVo projectvo.OpenGetIterationListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.OpenGetIterationListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	resp, err := service.OpenGetIterationList(reqVo)
-	return projectvo.OpenGetIterationListRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.OpenGetIterationListRespVo{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
 // 需求来源 废弃
-func (GetGreeter) OpenGetIssueSourceList(reqVo projectvo.OpenGetDemandSourceListReqVo) projectvo.OpenSomeAttrListRespVo {
+func OpenGetIssueSourceList(c *gin.Context) {
+	var reqVo projectvo.OpenGetDemandSourceListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.OpenSomeAttrListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	resp, err := service.OpenGetDemandSourceList(reqVo)
-	return projectvo.OpenSomeAttrListRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.OpenSomeAttrListRespVo{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
-func (GetGreeter) OpenGetPropertyList(reqVo projectvo.OpenGetPropertyListReqVo) projectvo.OpenSomeAttrListRespVo {
+func OpenGetPropertyList(c *gin.Context) {
+	var reqVo projectvo.OpenGetPropertyListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.OpenSomeAttrListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	resp, err := service.OpenGetPropertyList(reqVo)
-	return projectvo.OpenSomeAttrListRespVo{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, projectvo.OpenSomeAttrListRespVo{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }

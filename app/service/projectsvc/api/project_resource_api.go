@@ -1,42 +1,93 @@
 package api
 
 import (
+	"net/http"
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) CreateProjectResource(reqVo projectvo.CreateProjectResourceReqVo) vo.CommonRespVo {
+func CreateProjectResource(c *gin.Context) {
+	var reqVo projectvo.CreateProjectResourceReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.CreateProjectResource(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	response := vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) UpdateProjectResourceName(reqVo projectvo.UpdateProjectResourceNameReqVo) vo.CommonRespVo {
+func UpdateProjectResourceName(c *gin.Context) {
+	var reqVo projectvo.UpdateProjectResourceNameReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.UpdateProjectResourceName(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	response := vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) UpdateProjectFileResource(reqVo projectvo.UpdateProjectFileResourceReqVo) vo.CommonRespVo {
+func UpdateProjectFileResource(c *gin.Context) {
+	var reqVo projectvo.UpdateProjectFileResourceReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.UpdateProjectFileResource(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	response := vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) UpdateProjectResourceFolder(reqVo projectvo.UpdateProjectResourceFolderReqVo) projectvo.UpdateProjectResourceFolderRespVo {
+func UpdateProjectResourceFolder(c *gin.Context) {
+	var reqVo projectvo.UpdateProjectResourceFolderReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.UpdateProjectResourceFolder(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.UpdateProjectResourceFolderRespVo{Err: vo.NewErr(err), Output: res}
+	response := projectvo.UpdateProjectResourceFolderRespVo{Err: vo.NewErr(err), Output: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) DeleteProjectResource(reqVo projectvo.DeleteProjectResourceReqVo) projectvo.DeleteProjectResourceRespVo {
+func DeleteProjectResource(c *gin.Context) {
+	var reqVo projectvo.DeleteProjectResourceReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.DeleteProjectResource(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.DeleteProjectResourceRespVo{Err: vo.NewErr(err), Output: res}
+	response := projectvo.DeleteProjectResourceRespVo{Err: vo.NewErr(err), Output: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetProjectResource(reqVo projectvo.GetProjectResourceReqVo) projectvo.GetProjectResourceResVo {
+func GetProjectResource(c *gin.Context) {
+	var reqVo projectvo.GetProjectResourceReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.GetProjectResource(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, reqVo.Input)
-	return projectvo.GetProjectResourceResVo{Err: vo.NewErr(err), Output: res}
+	response := projectvo.GetProjectResourceResVo{Err: vo.NewErr(err), Output: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetProjectResourceInfo(reqVo projectvo.GetProjectResourceInfoReqVo) projectvo.GetProjectResourceInfoRespVo {
+func GetProjectResourceInfo(c *gin.Context) {
+	var reqVo projectvo.GetProjectResourceInfoReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.GetProjectResourceInfo(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.GetProjectResourceInfoRespVo{Err: vo.NewErr(err), Output: res}
+	response := projectvo.GetProjectResourceInfoRespVo{Err: vo.NewErr(err), Output: res}
+	c.JSON(http.StatusOK, response)
 }

@@ -1,12 +1,22 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) ProjectInit(req projectvo.ProjectInitReqVo) projectvo.ProjectInitRespVo {
+// ProjectInit 项目初始化
+func ProjectInit(c *gin.Context) {
+	var req projectvo.ProjectInitReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	respVo := projectvo.ProjectInitRespVo{}
 
 	//_ = mysql.TransX(func(tx sqlbuilder.Tx) error {
@@ -17,14 +27,25 @@ func (PostGreeter) ProjectInit(req projectvo.ProjectInitReqVo) projectvo.Project
 	//
 	//	return err
 	//})
-	return respVo
+
+	c.JSON(http.StatusOK, respVo)
 }
 
-// 初始化组织的时候创建左侧目录应用、视图
-func (PostGreeter) CreateOrgDirectoryAppsAndViews(reqVo projectvo.CreateOrgDirectoryAppsReq) vo.CommonRespVo {
-	err := service.CreateOrgDirectoryAppsAndViews(reqVo)
-	return vo.CommonRespVo{
-		Err:  vo.NewErr(err),
-		Void: &vo.Void{ID: 1},
+// CreateOrgDirectoryAppsAndViews 初始化组织的时候创建左侧目录应用、视图
+func CreateOrgDirectoryAppsAndViews(c *gin.Context) {
+	var reqVo projectvo.CreateOrgDirectoryAppsReq
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
+
+	err := service.CreateOrgDirectoryAppsAndViews(reqVo)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": &vo.Void{ID: 1},
+	})
 }

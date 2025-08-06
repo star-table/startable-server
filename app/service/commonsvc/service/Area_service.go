@@ -1,7 +1,7 @@
-package commonsvc
+package service
 
 import (
-	sconsts "github.com/star-table/startable-server/app/service"
+	"github.com/star-table/startable-server/app/service/commonsvc/domain"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"

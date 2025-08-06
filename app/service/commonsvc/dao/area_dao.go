@@ -1,4 +1,4 @@
-package commonsvc
+package dao
 
 import (
 	commonPo "github.com/star-table/startable-server/app/service/commonsvc/po"

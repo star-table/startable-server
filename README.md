@@ -1,5 +1,5 @@
-# polaris-backend
-极星后台，基于 gin 框架之上封装的业务框架。`polaris` 是极星的意思。   
+# startable-server
+极星协作后台，基于 gin 框架之上封装的业务框架。  
 
 ## 常用命令行
 所有的业务层服务可以在 service 目录下找到。由于是多个服务同时启动，因此关于多个服务的启动和关闭，需要一些脚本进行辅助
@@ -47,7 +47,7 @@
 以保证在使用时不会过期。
 
 ### 注意事项
-projectsvc 服务中有一些下载 excel 的服务，而这个服务对外暴露的容器未在本仓库中记录。其名称是 frontend-resourcesvc，对外提供文件下载服务。关于这个服务的详细信息可以找徐高人。
+projectsvc 服务中有一些下载 excel 的服务，而这个服务对外暴露的容器未在本仓库中记录。其名称是 frontend-resourcesvc，对外提供文件下载服务。
 
 ## reference 
 - 暂无 

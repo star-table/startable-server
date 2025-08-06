@@ -1,8 +1,10 @@
 package api
 
 import (
+	"net/http"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
 	"github.com/star-table/startable-server/common/core/errs"
@@ -12,60 +14,120 @@ import (
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) OpenLcHomeIssues(reqVo *projectvo.HomeIssuesReqVo) string {
-	if reqVo.Size > 30000 {
-		reqVo.Size = 30000
+func OpenLcHomeIssues(c *gin.Context) {
+	req := projectvo.HomeIssuesReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err)), Data: "{}"}))
+		return
 	}
-	res, err := service.LcHomeIssuesForProject(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, reqVo.Input, true)
+
+	if req.Size > 30000 {
+		req.Size = 30000
+	}
+	res, err := service.LcHomeIssuesForProject(req.OrgId, req.UserId, req.Page, req.Size, req.Input, true)
 	if err != nil {
-		return json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"})
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"}))
+		return
 	}
 
-	return res.Data
+	c.String(http.StatusOK, res.Data)
 }
 
-func (PostGreeter) OpenLcHomeIssuesForAll(reqVo *projectvo.HomeIssuesReqVo) string {
-	if reqVo.Size > 30000 {
-		reqVo.Size = 30000
+func OpenLcHomeIssuesForAll(c *gin.Context) {
+	req := projectvo.HomeIssuesReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err)), Data: "{}"}))
+		return
 	}
-	res, err := service.LcHomeIssuesForAll(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, reqVo.Input, true)
+
+	if req.Size > 30000 {
+		req.Size = 30000
+	}
+	res, err := service.LcHomeIssuesForAll(req.OrgId, req.UserId, req.Page, req.Size, req.Input, true)
 	if err != nil {
-		return json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"})
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"}))
+		return
 	}
 
-	return res.Data
+	c.String(http.StatusOK, res.Data)
 }
 
-func (GetGreeter) OpenIssueInfo(reqVo projectvo.IssueInfoReqVo) *projectvo.IssueDetailRespVo {
-	data, err := service.LcHomeIssuesForIssue(reqVo.OrgId, reqVo.UserId, -1, -1, reqVo.IssueID, -1, true)
-	return &projectvo.IssueDetailRespVo{Err: vo.NewErr(err), Data: data}
+func OpenIssueInfo(c *gin.Context) {
+	req := projectvo.IssueInfoReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, &projectvo.IssueDetailRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	data, err := service.LcHomeIssuesForIssue(req.OrgId, req.UserId, -1, -1, req.IssueID, -1, true)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, &projectvo.IssueDetailRespVo{Err: vo.NewErr(err), Data: data})
 }
 
-func (PostGreeter) OpenIssueStatusTypeStat(reqVo projectvo.IssueStatusTypeStatReqVo) projectvo.IssueStatusTypeStatRespVo {
-	res, err := service.IssueStatusTypeStat(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.IssueStatusTypeStatRespVo{Err: vo.NewErr(err), IssueStatusTypeStat: res}
+func OpenIssueStatusTypeStat(c *gin.Context) {
+	req := projectvo.IssueStatusTypeStatReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.IssueStatusTypeStatRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.IssueStatusTypeStat(req.OrgId, req.UserId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.IssueStatusTypeStatRespVo{Err: vo.NewErr(err), IssueStatusTypeStat: res})
 }
 
-func (PostGreeter) OpenCreateIssue(reqVo projectvo.CreateIssueReqVo) projectvo.IssueRespVo {
-	return projectvo.IssueRespVo{}
+func OpenCreateIssue(c *gin.Context) {
+	req := projectvo.CreateIssueReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.IssueRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	c.JSON(http.StatusOK, projectvo.IssueRespVo{})
 }
 
-func (PostGreeter) OpenUpdateIssue(reqVo projectvo.OpenUpdateIssueReqVo) projectvo.UpdateIssueRespVo {
-	return projectvo.UpdateIssueRespVo{Err: vo.NewErr(nil), UpdateIssue: &vo.UpdateIssueResp{}}
+func OpenUpdateIssue(c *gin.Context) {
+	var reqVo projectvo.OpenUpdateIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.UpdateIssueRespVo{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
+	result := projectvo.UpdateIssueRespVo{Err: vo.NewErr(nil), UpdateIssue: &vo.UpdateIssueResp{}}
+	c.JSON(http.StatusOK, result)
 }
 
-func (PostGreeter) OpenDeleteIssue(reqVo projectvo.OpenDeleteIssueReqVo) projectvo.DeleteIssueRespVo {
+func OpenDeleteIssue(c *gin.Context) {
+	var reqVo projectvo.OpenDeleteIssueReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.DeleteIssueRespVo{Err: vo.NewErr(errs.ReqParamsValidateError)})
+		return
+	}
+
 	// 校验操作人是否存在
 	_, userErr := orgfacade.GetBaseUserInfoRelaxed(reqVo.OrgId, reqVo.UserId)
 	if userErr != nil {
-		log.Error(userErr)
-		return projectvo.DeleteIssueRespVo{Err: vo.NewErr(userErr)}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": userErr.Error()})
+		return
 	}
 
 	judgeErr := service.JudgeProjectFilingByIssueId(reqVo.OrgId, reqVo.Data.IssueId)
 	if judgeErr != nil {
-		log.Error(judgeErr)
-		return projectvo.DeleteIssueRespVo{Err: vo.NewErr(judgeErr)}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": judgeErr.Error()})
+		return
 	}
 	_, err := service.DeleteIssueWithoutAuth(projectvo.DeleteIssueReqVo{
 		Input: vo.DeleteIssueReq{
@@ -75,31 +137,51 @@ func (PostGreeter) OpenDeleteIssue(reqVo projectvo.OpenDeleteIssueReqVo) project
 		UserId: reqVo.UserId,
 	})
 	if err != nil {
-		return projectvo.DeleteIssueRespVo{Err: vo.NewErr(err)}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
-	return projectvo.DeleteIssueRespVo{}
+	c.JSON(http.StatusOK, projectvo.DeleteIssueRespVo{})
 }
 
-func (PostGreeter) OpenIssueList(reqVo projectvo.OpenIssueListReqVo) projectvo.LcHomeIssuesRespVo {
+func OpenIssueList(c *gin.Context) {
+	var reqVo projectvo.OpenIssueListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: "{}"})
+		return
+	}
+
 	res, err := service.LcHomeIssuesForProject(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, reqVo.Data, false)
 	if err != nil {
-		return projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
-	return projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: json.ToJsonIgnoreError(map[string]interface{}{
+	c.JSON(http.StatusOK, projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(nil), Data: json.ToJsonIgnoreError(map[string]interface{}{
 		"code":    0,
 		"success": true,
 		"data":    res,
-	})}
+	})})
 }
 
-func (PostGreeter) OpenCreateIssueComment(reqVo projectvo.CreateIssueCommentReqVo) vo.CommonRespVo {
+func OpenCreateIssueComment(c *gin.Context) {
+	var reqVo projectvo.CreateIssueCommentReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, vo.CommonRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Void: nil})
+		return
+	}
+
 	reqVo.Input.Comment = strings.TrimSpace(reqVo.Input.Comment)
 	isCommentRight := format.VerifyIssueCommenFormat(reqVo.Input.Comment)
 	if !isCommentRight {
-		log.Error(errs.IssueCommentLenError)
-		return vo.CommonRespVo{Err: vo.NewErr(errs.IssueCommentLenError), Void: nil}
+		c.JSON(http.StatusBadRequest, gin.H{"error": "评论格式验证失败"})
+		return
 	}
 
 	res, err := service.CreateIssueComment(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }

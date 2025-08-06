@@ -1,4 +1,4 @@
-package idsvc
+package api
 
 //func TestApplyPrimaryId(t *testing.T) {
 //

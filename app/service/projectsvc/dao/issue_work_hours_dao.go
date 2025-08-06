@@ -2,13 +2,11 @@ package dao
 
 import (
 	"github.com/star-table/startable-server/app/service/projectsvc/po"
-	"github.com/star-table/startable-server/common/core/logger"
+
 	"github.com/star-table/startable-server/common/core/util/slice"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"upper.io/db.v3/lib/sqlbuilder"
 )
-
-var log = logger.GetDefaultLogger()
 
 // 插入一条数据
 func InsertIssueWorkHours(po po.PpmPriIssueWorkHours, tx ...sqlbuilder.Tx) error {

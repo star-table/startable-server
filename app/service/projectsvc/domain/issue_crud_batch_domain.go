@@ -11,7 +11,7 @@ import (
 	tablePb "gitea.bjx.cloud/LessCode/interface/golang/table/v1"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
 	"github.com/star-table/startable-server/app/facade/automationfacade"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/formfacade"
 	"github.com/star-table/startable-server/app/facade/idfacade"
 	"github.com/star-table/startable-server/app/facade/n8nfacade"
@@ -1371,7 +1371,7 @@ func (ctx *BatchCreateIssueContext) reportEvent() {
 		if createIssueVo, ok := ctx.CreateIssuesMap[issueId]; ok {
 			e.UpdatedColumns = createIssueVo.UpdateColumns
 		}
-		report.ReportDataEvent(msgPb.EventType_DataCreated, openTraceIdStr, e, mqttFlag)
+		common.ReportDataEvent(msgPb.EventType_DataCreated, openTraceIdStr, e, mqttFlag)
 	}
 
 	// 关联前后置更改，给变更的对端任务也要上报更新事件，此时只上报增量事件
@@ -1403,7 +1403,7 @@ func (ctx *BatchCreateIssueContext) reportEvent() {
 						Incremental: relatingLinkFrom, // 增量-添加
 						TriggerBy:   ctx.TriggerBy.TriggerBy,
 					}
-					report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e, mqttFlag)
+					common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e, mqttFlag)
 				}
 			}
 			for _, dataId := range relatingChange.LinkFromAdd {
@@ -1419,7 +1419,7 @@ func (ctx *BatchCreateIssueContext) reportEvent() {
 						Incremental: relatingLinkTo, // 增量-添加
 						TriggerBy:   ctx.TriggerBy.TriggerBy,
 					}
-					report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e, mqttFlag)
+					common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e, mqttFlag)
 				}
 			}
 		}
@@ -4033,7 +4033,7 @@ func (i *UpdateIssueVo) reportEvent(ctx *BatchUpdateIssueContext, userDepts map[
 	}
 	openTraceId, _ := threadlocal.Mgr.GetValue(consts.JaegerContextTraceKey)
 	openTraceIdStr := cast.ToString(openTraceId)
-	report.ReportDataEvent(eventType, openTraceIdStr, e)
+	common.ReportDataEvent(eventType, openTraceIdStr, e)
 
 	// 关联前后置更改，给变更的对端任务也要上报更新事件，此时只上报增量事件
 	for columnId, relatingChange := range i.RelatingChange {
@@ -4060,7 +4060,7 @@ func (i *UpdateIssueVo) reportEvent(ctx *BatchUpdateIssueContext, userDepts map[
 					Incremental: relatingLinkFrom, // 增量-添加
 					TriggerBy:   ctx.TriggerBy.TriggerBy,
 				}
-				report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
+				common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
 			}
 		}
 		for _, issueId := range relatingChange.LinkToDel {
@@ -4076,7 +4076,7 @@ func (i *UpdateIssueVo) reportEvent(ctx *BatchUpdateIssueContext, userDepts map[
 					Decremental: relatingLinkFrom, // 增量-删除
 					TriggerBy:   ctx.TriggerBy.TriggerBy,
 				}
-				report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
+				common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
 			}
 		}
 		for _, issueId := range relatingChange.LinkFromAdd {
@@ -4092,7 +4092,7 @@ func (i *UpdateIssueVo) reportEvent(ctx *BatchUpdateIssueContext, userDepts map[
 					Incremental: relatingLinkTo, // 增量-添加
 					TriggerBy:   ctx.TriggerBy.TriggerBy,
 				}
-				report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
+				common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
 			}
 		}
 		for _, issueId := range relatingChange.LinkFromDel {
@@ -4108,7 +4108,7 @@ func (i *UpdateIssueVo) reportEvent(ctx *BatchUpdateIssueContext, userDepts map[
 					Decremental: relatingLinkTo, // 增量-删除
 					TriggerBy:   ctx.TriggerBy.TriggerBy,
 				}
-				report.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
+				common.ReportDataEvent(msgPb.EventType_DataUpdated, openTraceIdStr, e)
 			}
 		}
 	}

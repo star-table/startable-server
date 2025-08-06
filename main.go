@@ -9,8 +9,14 @@ import (
 
 	"github.com/gin-contrib/gzip"
 
+	"github.com/DeanThompson/ginpprof"
+	"github.com/dchest/captcha"
+	"github.com/gin-gonic/gin"
+	"github.com/opentracing/opentracing-go"
+	"github.com/penglongli/gin-metrics/ginmetrics"
 	"github.com/star-table/startable-server/app/server/handler"
 	"github.com/star-table/startable-server/app/server/routes"
+	projectsvc "github.com/star-table/startable-server/app/service/projectsvc/api"
 	"github.com/star-table/startable-server/common/core/buildinfo"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/consts"
@@ -19,11 +25,6 @@ import (
 	"github.com/star-table/startable-server/common/extra/gin/mid"
 	"github.com/star-table/startable-server/common/extra/trace/gin2micro"
 	trace "github.com/star-table/startable-server/common/extra/trace/jaeger"
-	"github.com/DeanThompson/ginpprof"
-	"github.com/dchest/captcha"
-	"github.com/gin-gonic/gin"
-	"github.com/opentracing/opentracing-go"
-	"github.com/penglongli/gin-metrics/ginmetrics"
 )
 
 var log = logger.GetDefaultLogger()
@@ -147,6 +148,15 @@ func main() {
 	captcha.SetCustomStore(&handler.RedisCache{})
 	// 设定路由处理请求
 	routes.SetRoutes(r)
+	projectsvc.RegisterRoutes(r, "project", "v1")
+	log.Info("start server")
+	log.Infof("port: %s", port)
+	log.Infof("env: %s", env)
+	log.Infof("registerHost: %s", registerHost)
+	log.Infof("registerPort: %s", registerPort)
+	log.Infof("registerNamespace: %s", registerNamespace)
+	log.Infof("applicationName: %s", applicationName)
+	log.Infof("runMode: %d", config.GetApplication().RunMode)
 
 	if env != consts.RunEnvNull {
 		log.Info("开启pprof监控")

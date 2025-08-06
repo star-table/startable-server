@@ -1,61 +1,155 @@
-package orgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	"github.com/star-table/startable-server/common/core/errs"
+	"github.com/star-table/startable-server/common/core/logger"
 )
 
-func (PostGreeter) SetPassword(req orgvo.SetPasswordReqVo) vo.VoidErr {
-	err := service.SetPassword(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func SetPassword(c *gin.Context) {
+	var req orgvo.SetPasswordReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("SetPassword bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.SetPassword(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) ResetPassword(req orgvo.ResetPasswordReqVo) vo.VoidErr {
-	err := service.ResetPassword(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func ResetPassword(c *gin.Context) {
+	var req orgvo.ResetPasswordReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("ResetPassword bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.ResetPassword(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) RetrievePassword(req orgvo.RetrievePasswordReqVo) vo.VoidErr {
-	err := service.RetrievePassword(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func RetrievePassword(c *gin.Context) {
+	var req orgvo.RetrievePasswordReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("RetrievePassword bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.RetrievePassword(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
 // UnbindLoginName 目前情况先不允许解绑，要不会导致本地账户丢失，再也无法使用
-func (PostGreeter) UnbindLoginName(req orgvo.UnbindLoginNameReqVo) vo.VoidErr {
-	err := service.UnbindLoginName(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func UnbindLoginName(c *gin.Context) {
+	var req orgvo.UnbindLoginNameReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("UnbindLoginName bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.UnbindLoginName(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) BindLoginName(req orgvo.BindLoginNameReqVo) vo.VoidErr {
-	err := service.BindLoginName(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func BindLoginName(c *gin.Context) {
+	var req orgvo.BindLoginNameReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("BindLoginName bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.BindLoginName(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) CheckLoginName(req orgvo.CheckLoginNameReqVo) vo.VoidErr {
-	err := service.CheckLoginName(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func CheckLoginName(c *gin.Context) {
+	var req orgvo.CheckLoginNameReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("CheckLoginName bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.CheckLoginName(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) VerifyOldName(req orgvo.UnbindLoginNameReqVo) vo.VoidErr {
-	err := service.VerifyOldName(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func VerifyOldName(c *gin.Context) {
+	var req orgvo.UnbindLoginNameReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("VerifyOldName bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.VerifyOldName(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) ChangeLoginName(req orgvo.BindLoginNameReqVo) vo.VoidErr {
-	err := service.ChangeLoginName(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func ChangeLoginName(c *gin.Context) {
+	var req orgvo.BindLoginNameReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("ChangeLoginName bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.ChangeLoginName(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) DisbandThirdAccount(req vo.CommonReqVo) vo.VoidErr {
-	err := service.DisbandThirdAccount(req.OrgId, req.UserId, req.SourceChannel)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+func DisbandThirdAccount(c *gin.Context) {
+	var req vo.CommonReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("DisbandThirdAccount bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.DisbandThirdAccount(req.OrgId, req.UserId, req.SourceChannel)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) ThirdAccountBindList(req vo.CommonReqVo) orgvo.ThirdAccountListResp {
-	res, err := service.ThirdAccountBindList(req.OrgId, req.UserId)
-	return orgvo.ThirdAccountListResp{
+func ThirdAccountBindList(c *gin.Context) {
+	var req vo.CommonReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("ThirdAccountBindList bind request failed", err)
+		response := orgvo.ThirdAccountListResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.ThirdAccountBindList(req.OrgId, req.UserId)
+	response := orgvo.ThirdAccountListResp{
 		Err:  vo.NewErr(err),
 		Data: res,
 	}
+	c.JSON(http.StatusOK, response)
 }

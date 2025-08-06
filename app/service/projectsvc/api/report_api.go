@@ -1,18 +1,34 @@
 package api
 
 import (
+	"net/http"
+	"github.com/gin-gonic/gin"
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"
 )
 
-func (PostGreeter) ReportAppEvent(req *commonvo.ReportAppEventReq) *vo.CommonRespVo {
-	report.ReportAppEvent(msgPb.EventType(req.EventType), req.TraceId, req.AppEvent)
-	return &vo.CommonRespVo{}
+func ReportAppEvent(c *gin.Context) {
+	var req commonvo.ReportAppEventReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	common.ReportAppEvent(msgPb.EventType(req.EventType), req.TraceId, req.AppEvent)
+	response := &vo.CommonRespVo{}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) ReportTableEvent(req *commonvo.ReportTableEventReq) *vo.CommonRespVo {
-	report.ReportTableEvent(msgPb.EventType(req.EventType), req.TraceId, req.TableEvent)
-	return &vo.CommonRespVo{}
+func ReportTableEvent(c *gin.Context) {
+	var req commonvo.ReportTableEventReq
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	common.ReportTableEvent(msgPb.EventType(req.EventType), req.TraceId, req.TableEvent)
+	response := &vo.CommonRespVo{}
+	c.JSON(http.StatusOK, response)
 }

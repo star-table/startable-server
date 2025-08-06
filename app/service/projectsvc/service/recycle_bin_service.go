@@ -12,7 +12,7 @@ import (
 	"github.com/star-table/startable-server/common/core/threadlocal"
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/formfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/app/facade/resourcefacade"
@@ -129,7 +129,7 @@ func RecoverRecycleBin(orgId, userId, projectId int64, recycleId, relationId int
 				New:       data,
 			}
 			// 上报事件
-			report.ReportDataEvent(msgPb.EventType_DataRecoverd, openTraceIdStr, e)
+			common.ReportDataEvent(msgPb.EventType_DataRecoverd, openTraceIdStr, e)
 		}
 	})
 

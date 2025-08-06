@@ -1,102 +1,227 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
+
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) GetOneTableColumns(req projectvo.GetTableColumnReq) projectvo.TableColumnsResp {
+func GetOneTableColumns(c *gin.Context) {
+	req := projectvo.GetTableColumnReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.TableColumnsResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	resp, err := service.GetOneTableColumns(req)
-	return projectvo.TableColumnsResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.TableColumnsResp{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
-func (PostGreeter) GetTablesColumns(req projectvo.GetTablesColumnsReq) projectvo.TablesColumnsResp {
+func GetTablesColumns(c *gin.Context) {
+	req := projectvo.GetTablesColumnsReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.TablesColumnsResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	resp, err := service.GetTablesColumns(req)
-	return projectvo.TablesColumnsResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.TablesColumnsResp{
 		Err:  vo.NewErr(err),
 		Data: resp,
-	}
+	})
 }
 
-func (PostGreeter) CreateTable(req projectvo.CreateTableReq) projectvo.CreateTableRespVo {
+func CreateTable(c *gin.Context) {
+	req := projectvo.CreateTableReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.CreateTableRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.CreateTable(req)
-	return projectvo.CreateTableRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.CreateTableRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) RenameTable(req projectvo.RenameTableReq) projectvo.RenameTableResp {
+func RenameTable(c *gin.Context) {
+	req := projectvo.RenameTableReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.RenameTableResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.RenameTable(req)
-	return projectvo.RenameTableResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.RenameTableResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) DeleteTable(req projectvo.DeleteTableReq) projectvo.DeleteTableResp {
+func DeleteTable(c *gin.Context) {
+	req := projectvo.DeleteTableReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.DeleteTableResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.DeleteTable(req)
-	return projectvo.DeleteTableResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.DeleteTableResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) SetAutoSchedule(req projectvo.SetAutoScheduleReq) projectvo.SetAutoScheduleResp {
+func SetAutoSchedule(c *gin.Context) {
+	req := projectvo.SetAutoScheduleReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.SetAutoScheduleResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.SetAutoSchedule(req)
-	return projectvo.SetAutoScheduleResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.SetAutoScheduleResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetTable(req projectvo.GetTableInfoReq) projectvo.GetTableInfoResp {
+func GetTable(c *gin.Context) {
+	req := projectvo.GetTableInfoReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetTableInfoResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetTable(req)
-	return projectvo.GetTableInfoResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetTableInfoResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetTables(req projectvo.GetTablesReqVo) projectvo.GetTablesDataResp {
+func GetTables(c *gin.Context) {
+	req := projectvo.GetTablesReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetTablesDataResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetTables(req.OrgId, req.UserId, req.Input.AppId)
-	return projectvo.GetTablesDataResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetTablesDataResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetTablesByApps(req projectvo.ReadTablesByAppsReqVo) projectvo.ReadTablesByAppsRespVo {
+func GetTablesByApps(c *gin.Context) {
+	req := projectvo.ReadTablesByAppsReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.ReadTablesByAppsRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetTablesByApps(req.OrgId, req.UserId, req.Input.AppIds)
-	return projectvo.ReadTablesByAppsRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.ReadTablesByAppsRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetTablesByOrg(req projectvo.GetTablesByOrgReq) projectvo.GetTablesByOrgRespVo {
+func GetTablesByOrg(c *gin.Context) {
+	req := projectvo.GetTablesByOrgReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetTablesByOrgRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetTablesByOrg(req.OrgId, req.UserId)
-	return projectvo.GetTablesByOrgRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetTablesByOrgRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetBigTableModeConfig(req projectvo.GetBigTableModeConfigReqVo) projectvo.GetBigTableModeConfigResp {
+func GetBigTableModeConfig(c *gin.Context) {
+	req := projectvo.GetBigTableModeConfigReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetBigTableModeConfigResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetBigTableModeConfig(req)
-	return projectvo.GetBigTableModeConfigResp{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetBigTableModeConfigResp{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) SwitchBigTableMode(req projectvo.SwitchBigTableModeReqVo) vo.CommonRespVo {
-	err := service.SwitchBigTableMode(req)
-	return vo.CommonRespVo{
-		Err: vo.NewErr(err),
+func SwitchBigTableMode(c *gin.Context) {
+	req := projectvo.SwitchBigTableModeReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
 	}
+
+	err := service.SwitchBigTableMode(req)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{
+		Err: vo.NewErr(err),
+	})
 }

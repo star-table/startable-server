@@ -10,7 +10,7 @@ import (
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
 	pushPb "gitea.bjx.cloud/LessCode/interface/golang/push/v1"
 	tablePb "gitea.bjx.cloud/LessCode/interface/golang/table/v1"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/commonfacade"
 	"github.com/star-table/startable-server/app/facade/formfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
@@ -1987,7 +1987,7 @@ func ReportMoveEvent(userId int64, oldIssue *bo.IssueBo, newData map[string]inte
 	}
 	openTraceId, _ := threadlocal.Mgr.GetValue(consts.JaegerContextTraceKey)
 	openTraceIdStr := cast.ToString(openTraceId)
-	report.ReportDataEvent(msgPb.EventType_DataMoved, openTraceIdStr, e)
+	common.ReportDataEvent(msgPb.EventType_DataMoved, openTraceIdStr, e)
 }
 
 func getRelatingAppTableIdByProps(props map[string]interface{}) (appId int64, tableId int64) {

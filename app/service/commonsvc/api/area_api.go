@@ -1,20 +1,37 @@
-package commonsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	commonService "github.com/star-table/startable-server/app/service/commonsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"
 )
 
-func (PostGreeter) AreaLinkageList(req commonvo.AreaLinkageListReqVo) commonvo.AreaLinkageListRespVo {
-	res, err := service.AreaLinkageList(req.Input)
-	return commonvo.AreaLinkageListRespVo{Err: vo.NewErr(err), AreaLinkageListResp: res}
+// AreaLinkageList 获取地区联动列表
+func AreaLinkageList(c *gin.Context) {
+	var req commonvo.AreaLinkageListReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := commonvo.AreaLinkageListRespVo{Err: vo.NewErr(err)}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	res, err := commonService.AreaLinkageList(req.Input)
+	response := commonvo.AreaLinkageListRespVo{Err: vo.NewErr(err), AreaLinkageListResp: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) AreaInfo(req commonvo.AreaInfoReqVo) commonvo.AreaInfoRespVo {
-
-	res, err := service.OrgAreaInfo(req)
-
-	return commonvo.AreaInfoRespVo{Err: vo.NewErr(err), AreaInfoResp: res}
-
+// AreaInfo 获取地区信息
+func AreaInfo(c *gin.Context) {
+	var req commonvo.AreaInfoReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := commonvo.AreaInfoRespVo{Err: vo.NewErr(err)}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	res, err := commonService.OrgAreaInfo(req)
+	response := commonvo.AreaInfoRespVo{Err: vo.NewErr(err), AreaInfoResp: res}
+	c.JSON(http.StatusOK, response)
 }

@@ -1,36 +1,47 @@
-package orgsvc
+package api
 
 import (
-	"context"
+	"net/http"
 
-	"github.com/star-table/startable-server/app/service"
+	"github.com/gin-gonic/gin"
+	"github.com/star-table/startable-server/common/core/logger"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
 )
 
-func (GetGreeter) GetCurrentUser(ctx context.Context) orgvo.CacheUserInfoVo {
-	info, err := service.GetCurrentUser(ctx)
+func GetCurrentUser(c *gin.Context) {
+	info, err := orgsvcService.GetCurrentUser(c.Request.Context())
 	res := orgvo.CacheUserInfoVo{Err: vo.NewErr(err)}
 	if info != nil {
 		res.CacheInfo = *info
 	}
-	return res
+	if err != nil {
+		logger.Error("GetCurrentUser error", logger.ErrorField(err))
+	}
+	c.JSON(http.StatusOK, res)
 }
 
-func (GetGreeter) GetCurrentUserWithoutOrgVerify(ctx context.Context) orgvo.CacheUserInfoVo {
-	info, err := service.GetCurrentUserWithoutOrgVerify(ctx)
+func GetCurrentUserWithoutOrgVerify(c *gin.Context) {
+	info, err := orgsvcService.GetCurrentUserWithoutOrgVerify(c.Request.Context())
 	res := orgvo.CacheUserInfoVo{Err: vo.NewErr(err)}
 	if info != nil {
 		res.CacheInfo = *info
 	}
-	return res
+	if err != nil {
+		logger.Error("GetCurrentUserWithoutOrgVerify error", logger.ErrorField(err))
+	}
+	c.JSON(http.StatusOK, res)
 }
 
-func (GetGreeter) GetCurrentUserWithoutPayVerify(ctx context.Context) orgvo.CacheUserInfoVo {
-	info, err := service.GetCurrentUserWithCond(ctx, true, false)
+func GetCurrentUserWithoutPayVerify(c *gin.Context) {
+	info, err := orgsvcService.GetCurrentUserWithCond(c.Request.Context(), true, false)
 	res := orgvo.CacheUserInfoVo{Err: vo.NewErr(err)}
 	if info != nil {
 		res.CacheInfo = *info
 	}
-	return res
+	if err != nil {
+		logger.Error("GetCurrentUserWithoutPayVerify error", logger.ErrorField(err))
+	}
+	c.JSON(http.StatusOK, res)
 }

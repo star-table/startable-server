@@ -1,6 +1,7 @@
-package commonsvc
+package service
 
 import (
+	"github.com/star-table/startable-server/app/service/commonsvc/domain"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/logger"

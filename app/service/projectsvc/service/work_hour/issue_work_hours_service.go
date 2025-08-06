@@ -9,7 +9,7 @@ import (
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
 	tablev1 "gitea.bjx.cloud/LessCode/interface/golang/table/v1"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/commonfacade"
 	"github.com/star-table/startable-server/app/facade/formfacade"
 	"github.com/star-table/startable-server/app/facade/idfacade"
@@ -22,6 +22,9 @@ import (
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/logger"
+
+	"github.com/cznic/sortutil"
+	"github.com/spf13/cast"
 	"github.com/star-table/startable-server/common/core/threadlocal"
 	"github.com/star-table/startable-server/common/core/util/asyn"
 	"github.com/star-table/startable-server/common/core/util/copyer"
@@ -36,8 +39,6 @@ import (
 	"github.com/star-table/startable-server/common/model/vo/formvo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
-	"github.com/cznic/sortutil"
-	"github.com/spf13/cast"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )
@@ -2305,7 +2306,7 @@ func PushMqttForWorkHour(orgId, userId, issueId int64) {
 	openTraceIdStr := cast.ToString(openTraceId)
 
 	// 上报事件
-	report.ReportDataEvent(msgPb.EventType_DataWorkHourUpdated, openTraceIdStr, e)
+	common.ReportDataEvent(msgPb.EventType_DataWorkHourUpdated, openTraceIdStr, e)
 }
 
 // 检查是否是任务相关人员（创建人，关注人，负责人）

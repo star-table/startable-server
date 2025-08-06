@@ -1,16 +1,16 @@
-package commonsvc
+package api
 
 import (
 	"context"
 	"fmt"
 	"testing"
 
+	"github.com/smartystreets/goconvey/convey"
 	"github.com/star-table/startable-server/app/facade/commonfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/test"
-	"github.com/smartystreets/goconvey/convey"
 )
 
 func TestIndustryList(t *testing.T) {

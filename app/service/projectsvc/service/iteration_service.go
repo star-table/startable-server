@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cast"
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/common/core/threadlocal"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"
 
@@ -286,7 +286,7 @@ func CreateIteration(orgId, currentUserId int64, input vo.CreateIterationReq) (*
 				openTraceId, _ := threadlocal.Mgr.GetValue(consts.JaegerContextTraceKey)
 				openTraceIdStr := cast.ToString(openTraceId)
 
-				report.ReportTableEvent(msgPb.EventType_TableColumnRefresh, openTraceIdStr, e)
+				common.ReportTableEvent(msgPb.EventType_TableColumnRefresh, openTraceIdStr, e)
 			}
 		}
 	})

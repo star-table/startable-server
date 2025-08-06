@@ -9,7 +9,7 @@ import (
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
 	tablePb "gitea.bjx.cloud/LessCode/interface/golang/table/v1"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/formfacade"
 	"github.com/star-table/startable-server/app/facade/idfacade"
 	"github.com/star-table/startable-server/app/facade/tablefacade"
@@ -133,7 +133,7 @@ func DeleteIssueWithoutAuth(reqVo projectvo.DeleteIssueReqVo) (*vo.Issue, errs.S
 				IssueId:   issueId,
 				UserId:    currentUserId,
 			}
-			report.ReportDataEvent(msgPb.EventType_DataDeleted, openTraceIdStr, e)
+			common.ReportDataEvent(msgPb.EventType_DataDeleted, openTraceIdStr, e)
 		}
 
 	})
@@ -286,7 +286,7 @@ func DeleteIssueBatch(reqVo projectvo.DeleteIssueBatchReqVo) (*vo.DeleteIssueBat
 				UserId:    currentUserId,
 			}
 			issueProjectId = projectId
-			report.ReportDataEvent(msgPb.EventType_DataDeleted, openTraceIdStr, e)
+			common.ReportDataEvent(msgPb.EventType_DataDeleted, openTraceIdStr, e)
 		}
 
 		domain.UpdateDingTopCard(orgId, issueProjectId)

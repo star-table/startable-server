@@ -1,4 +1,4 @@
-package commonsvc
+package service
 
 import (
 	"bytes"
@@ -7,12 +7,12 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/common/core/config"
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/uuid"
 	"github.com/star-table/startable-server/common/extra/feishu"
-	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
 
 var fileTypeMap sync.Map

@@ -1,15 +1,27 @@
-package orgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/copyer"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/ordervo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	"github.com/star-table/startable-server/app/service/orgsvc/domain"
 )
 
-func (GetGreeter) PersonalInfo(req orgvo.PersonalInfoReqVo) orgvo.PersonalInfoRespVo {
-	res, err := service.PersonalInfo(req.OrgId, req.UserId, req.SourceChannel)
+// PersonalInfo 获取个人信息
+func PersonalInfo(c *gin.Context) {
+	var req orgvo.PersonalInfoReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := orgvo.PersonalInfoRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ParamError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	res, err := orgsvcService.PersonalInfo(req.OrgId, req.UserId, req.SourceChannel)
 	respData := vo.PersonalInfo{}
 	if err == nil {
 		functionArr := res.Functions
@@ -21,7 +33,13 @@ func (GetGreeter) PersonalInfo(req orgvo.PersonalInfoReqVo) orgvo.PersonalInfoRe
 		respData.Functions = domain.GetFunctionKeyListByFunctions(functionArrOfOrderPkg)
 	}
 
-	return orgvo.PersonalInfoRespVo{Err: vo.NewErr(err), PersonalInfo: &respData}
+	if err != nil {
+		response := orgvo.PersonalInfoRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ServerError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response := orgvo.PersonalInfoRespVo{Err: vo.NewErr(nil), PersonalInfo: &respData}
+	c.JSON(http.StatusOK, response)
 }
 
 func (GetGreeter) PersonalInfoRest(req orgvo.PersonalInfoReqVo) orgvo.PersonalInfoRestRespVo {

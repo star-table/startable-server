@@ -1,16 +1,14 @@
-package commonsvc
+package domain
 
 import (
 	"github.com/star-table/startable-server/app/service/commonsvc/dao"
 	"github.com/star-table/startable-server/app/service/commonsvc/po"
 	"github.com/star-table/startable-server/common/core/errs"
-	"github.com/star-table/startable-server/common/core/logger"
 	"github.com/star-table/startable-server/common/core/util/copyer"
 	"github.com/star-table/startable-server/common/model/bo"
+	"github.com/star-table/startable-server/go-common/pkg/log"
 	"upper.io/db.v3"
 )
-
-var log = logger.GetDefaultLogger()
 
 func GetAreaBoList(page uint, size uint, cond db.Cond) (*[]bo.AreaBo, int64, errs.SystemErrorInfo) {
 	pos, total, err := dao.SelectAreaByPage(cond, bo.PageBo{

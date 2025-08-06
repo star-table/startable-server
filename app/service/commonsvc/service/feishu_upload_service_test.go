@@ -1,11 +1,11 @@
-package commonsvc
+package service
 
 import (
 	"context"
 	"testing"
 
-	"github.com/star-table/startable-server/common/test"
 	"github.com/smartystreets/goconvey/convey"
+	"github.com/star-table/startable-server/common/test"
 )
 
 func TestUploadOssByFsImageKey(t *testing.T) {

@@ -1,78 +1,130 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
 	"github.com/star-table/startable-server/app/service/projectsvc/domain"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
+
 	"github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
-	"github.com/spf13/cast"
 )
 
-func (PostGreeter) InnerIssueFilter(reqVo *projectvo.InnerIssueFilterReq) string {
-	appId := cast.ToString(reqVo.Input.AppId)
-	tableId := cast.ToString(reqVo.Input.TableId)
-	projectId, err := domain.GetProjectIdByAppId(reqVo.OrgId, reqVo.Input.AppId)
-	if err != nil {
-		return json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"})
+func InnerIssueFilter(c *gin.Context) {
+	req := projectvo.InnerIssueFilterReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err)), Data: "{}"}))
+		return
 	}
-	res, err := service.LcHomeIssuesForProject(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, &projectvo.HomeIssueInfoReq{
+
+	appId := cast.ToString(req.Input.AppId)
+	tableId := cast.ToString(req.Input.TableId)
+	projectId, err := domain.GetProjectIdByAppId(req.OrgId, req.Input.AppId)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"}))
+		return
+	}
+	res, err := service.LcHomeIssuesForProject(req.OrgId, req.UserId, req.Page, req.Size, &projectvo.HomeIssueInfoReq{
 		MenuAppID:     &appId,
 		ProjectID:     &projectId,
 		TableID:       &tableId,
-		FilterColumns: reqVo.Input.Columns,
-		LessConds:     reqVo.Input.Condition,
-		LessOrder:     reqVo.Input.Orders,
+		FilterColumns: req.Input.Columns,
+		LessConds:     req.Input.Condition,
+		LessOrder:     req.Input.Orders,
 	}, true)
 	if err != nil {
-		return json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"})
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.String(http.StatusOK, json.ToJsonIgnoreError(&projectvo.LcHomeIssuesRespVo{Err: vo.NewErr(err), Data: "{}"}))
+		return
 	}
-	return res.Data
+	c.String(http.StatusOK, res.Data)
 }
 
-func (PostGreeter) InnerIssueCreate(reqVo *projectvo.InnerIssueCreateReq) *projectvo.LcDataListRespVo {
-	projectId, err := domain.GetProjectIdByAppId(reqVo.OrgId, reqVo.Input.AppId)
-	if err != nil {
-		return &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: nil}
+func InnerIssueCreate(c *gin.Context) {
+	req := projectvo.InnerIssueCreateReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err)), Data: nil})
+		return
 	}
-	req := &projectvo.BatchCreateIssueReqVo{
-		OrgId:  reqVo.OrgId,
-		UserId: reqVo.UserId,
+
+	projectId, err := domain.GetProjectIdByAppId(req.OrgId, req.Input.AppId)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: nil})
+		return
+	}
+	reqVo := &projectvo.BatchCreateIssueReqVo{
+		OrgId:  req.OrgId,
+		UserId: req.UserId,
 		Input: &projectvo.BatchCreateIssueInput{
-			AppId:     reqVo.Input.AppId,
+			AppId:     req.Input.AppId,
 			ProjectId: projectId,
-			TableId:   reqVo.Input.TableId,
-			Data:      reqVo.Input.Data,
+			TableId:   req.Input.TableId,
+			Data:      req.Input.Data,
 		},
 	}
-	res, userDept, relateData, err := service.SyncBatchCreateIssue(req, true, reqVo.Input.TriggerBy)
-	return &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: res, UserDept: userDept, RelateData: relateData}
+	res, userDept, relateData, err := service.SyncBatchCreateIssue(reqVo, true, req.Input.TriggerBy)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: res, UserDept: userDept, RelateData: relateData})
 }
 
-func (PostGreeter) InnerIssueCreateByCopy(reqVo *projectvo.InnerIssueCreateByCopyReq) *projectvo.LcDataListRespVo {
-	projectId, err := domain.GetProjectIdByAppId(reqVo.OrgId, reqVo.Input.AppId)
-	if err != nil {
-		return &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: nil}
+func InnerIssueCreateByCopy(c *gin.Context) {
+	req := projectvo.InnerIssueCreateByCopyReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err)), Data: nil})
+		return
 	}
-	res, userDept, relateData, err := service.CopyIssueBatchWithData(reqVo.OrgId, reqVo.UserId, projectId, cast.ToInt64(reqVo.Input.TableId),
-		reqVo.Input.IssueIds, reqVo.Input.Data, reqVo.Input.TriggerBy,
-		true, reqVo.Input.IsStaticCopy, reqVo.Input.IsCreateMissingSelectOptions, true)
-	return &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: res, UserDept: userDept, RelateData: relateData}
+
+	projectId, err := domain.GetProjectIdByAppId(req.OrgId, req.Input.AppId)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: nil})
+		return
+	}
+	res, userDept, relateData, err := service.CopyIssueBatchWithData(req.OrgId, req.UserId, projectId, cast.ToInt64(req.Input.TableId),
+		req.Input.IssueIds, req.Input.Data, req.Input.TriggerBy,
+		true, req.Input.IsStaticCopy, req.Input.IsCreateMissingSelectOptions, true)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, &projectvo.LcDataListRespVo{Err: vo.NewErr(err), Data: res, UserDept: userDept, RelateData: relateData})
 }
 
-func (PostGreeter) InnerIssueUpdate(reqVo *projectvo.InnerIssueUpdateReq) *vo.VoidErr {
-	projectId, err := domain.GetProjectIdByAppId(reqVo.OrgId, reqVo.Input.AppId)
-	if err != nil {
-		return &vo.VoidErr{Err: vo.NewErr(err)}
+func InnerIssueUpdate(c *gin.Context) {
+	req := projectvo.InnerIssueUpdateReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, &vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
 	}
-	req := &projectvo.BatchUpdateIssueReqInnerVo{
-		OrgId:     reqVo.OrgId,
-		UserId:    reqVo.UserId,
-		AppId:     reqVo.Input.AppId,
+
+	projectId, err := domain.GetProjectIdByAppId(req.OrgId, req.Input.AppId)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+		c.JSON(http.StatusOK, &vo.VoidErr{Err: vo.NewErr(err)})
+		return
+	}
+	reqVo := &projectvo.BatchUpdateIssueReqInnerVo{
+		OrgId:     req.OrgId,
+		UserId:    req.UserId,
+		AppId:     req.Input.AppId,
 		ProjectId: projectId,
-		TableId:   reqVo.Input.TableId,
-		Data:      reqVo.Input.Data,
+		TableId:   req.Input.TableId,
+		Data:      req.Input.Data,
 	}
-	err = service.SyncBatchUpdateIssue(req, true, reqVo.Input.TriggerBy)
-	return &vo.VoidErr{Err: vo.NewErr(err)}
+	err = service.SyncBatchUpdateIssue(reqVo, true, req.Input.TriggerBy)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, &vo.VoidErr{Err: vo.NewErr(err)})
 }

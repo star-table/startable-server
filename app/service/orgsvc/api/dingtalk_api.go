@@ -1,79 +1,173 @@
-package orgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	"github.com/star-table/startable-server/common/core/errs"
+	"github.com/star-table/startable-server/common/core/logger"
 )
 
-func (PostGreeter) GetDingJsAPISign(input orgvo.GetDingApiSignReq) orgvo.GetJsAPISignRespVo {
-	res, err := service.GetDingJsAPISign(input.Input)
-	return orgvo.GetJsAPISignRespVo{Err: vo.NewErr(err), GetJsAPISign: res}
+func GetDingJsAPISign(c *gin.Context) {
+	var input orgvo.GetDingApiSignReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetDingJsAPISign bind request failed", err)
+		response := orgvo.GetJsAPISignRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.GetDingJsAPISign(input.Input)
+	response := orgvo.GetJsAPISignRespVo{Err: vo.NewErr(err), GetJsAPISign: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) AuthDingCode(input orgvo.AuthDingCodeReqVo) orgvo.AuthDingCodeRespVo {
-	res, err := service.AuthDingCode(input)
-	return orgvo.AuthDingCodeRespVo{
+func AuthDingCode(c *gin.Context) {
+	var input orgvo.AuthDingCodeReqVo
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("AuthDingCode bind request failed", err)
+		response := orgvo.AuthDingCodeRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	res, err := orgsvcService.AuthDingCode(input)
+	response := orgvo.AuthDingCodeRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) CreateCoolApp(input orgvo.CreateCoolAppReq) vo.CommonRespVo {
-	err := service.CreateCoolApp(input.Input)
-	return vo.CommonRespVo{
+func CreateCoolApp(c *gin.Context) {
+	var input orgvo.CreateCoolAppReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("CreateCoolApp bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.CreateCoolApp(input.Input)
+	response := vo.CommonRespVo{
 		Err: vo.NewErr(err),
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetCoolAppInfo(input orgvo.GetCoolAppInfoReq) orgvo.GetCoolAppInfoResp {
-	info, err := service.GetCoolAppInfo(input.Input.OpenConversationId)
-	return orgvo.GetCoolAppInfoResp{
+func GetCoolAppInfo(c *gin.Context) {
+	var input orgvo.GetCoolAppInfoReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetCoolAppInfo bind request failed", err)
+		response := orgvo.GetCoolAppInfoResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	info, err := orgsvcService.GetCoolAppInfo(input.Input.OpenConversationId)
+	response := orgvo.GetCoolAppInfoResp{
 		Err:  vo.NewErr(err),
 		Data: info,
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) DeleteCoolApp(input orgvo.DeleteCoolAppReq) vo.CommonRespVo {
-	err := service.DeleteCoolApp(input)
-	return vo.CommonRespVo{
+func DeleteCoolApp(c *gin.Context) {
+	var input orgvo.DeleteCoolAppReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("DeleteCoolApp bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.DeleteCoolApp(input)
+	response := vo.CommonRespVo{
 		Err: vo.NewErr(err),
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) DeleteCoolAppByProject(input orgvo.DeleteCoolAppByProjectReq) vo.CommonRespVo {
-	err := service.DeleteCoolAppByProject(input.OrgId, input.ProjectId)
-	return vo.CommonRespVo{
+func DeleteCoolAppByProject(c *gin.Context) {
+	var input orgvo.DeleteCoolAppByProjectReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("DeleteCoolAppByProject bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.DeleteCoolAppByProject(input.OrgId, input.ProjectId)
+	response := vo.CommonRespVo{
 		Err: vo.NewErr(err),
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) BindCoolApp(input orgvo.BindCoolAppReq) vo.CommonRespVo {
-	err := service.BindCoolApp(input)
-	return vo.CommonRespVo{
+func BindCoolApp(c *gin.Context) {
+	var input orgvo.BindCoolAppReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("BindCoolApp bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.BindCoolApp(input)
+	response := vo.CommonRespVo{
 		Err: vo.NewErr(err),
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) UpdateCoolAppTopCard(input orgvo.UpdateCoolAppTopCardReq) vo.CommonRespVo {
-	err := service.UpdateTopCard(input.OrgId, input.ProjectId)
-	return vo.CommonRespVo{
+func UpdateCoolAppTopCard(c *gin.Context) {
+	var input orgvo.UpdateCoolAppTopCardReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("UpdateCoolAppTopCard bind request failed", err)
+		response := vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.UpdateTopCard(input.OrgId, input.ProjectId)
+	response := vo.CommonRespVo{
 		Err: vo.NewErr(err),
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetUpdateCoolAppTopCardData(input orgvo.GetCoolAppTopCardDataReq) orgvo.GetCoolAppTopCardDataResp {
-	data, err := service.GetTopCardData(input.Input.OpenConversationId)
-	return orgvo.GetCoolAppTopCardDataResp{
+func GetUpdateCoolAppTopCardData(c *gin.Context) {
+	var input orgvo.GetCoolAppTopCardDataReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetUpdateCoolAppTopCardData bind request failed", err)
+		response := orgvo.GetCoolAppTopCardDataResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	data, err := orgsvcService.GetTopCardData(input.Input.OpenConversationId)
+	response := orgvo.GetCoolAppTopCardDataResp{
 		Err:  vo.NewErr(err),
 		Data: data,
 	}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetSpaceList(input orgvo.GetSpaceListReq) orgvo.GetSpaceListResp {
-	data, err := service.GetSpaceList(input)
-	return orgvo.GetSpaceListResp{
+func GetSpaceList(c *gin.Context) {
+	var input orgvo.GetSpaceListReq
+	if err := c.ShouldBindJSON(&input); err != nil {
+		logger.Error("GetSpaceList bind request failed", err)
+		response := orgvo.GetSpaceListResp{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	data, err := orgsvcService.GetSpaceList(input)
+	response := orgvo.GetSpaceListResp{
 		Err:  vo.NewErr(err),
 		Data: data,
 	}
+	c.JSON(http.StatusOK, response)
 }

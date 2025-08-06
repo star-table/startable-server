@@ -1,34 +1,89 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
+
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) IterationList(reqVo projectvo.IterationListReqVo) projectvo.IterationListRespVo {
-	res, err := service.IterationList(reqVo.OrgId, reqVo.Page, reqVo.Size, reqVo.Input)
-	return projectvo.IterationListRespVo{Err: vo.NewErr(err), IterationList: res}
+func IterationList(c *gin.Context) {
+	req := projectvo.IterationListReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.IterationListRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.IterationList(req.OrgId, req.Page, req.Size, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.IterationListRespVo{Err: vo.NewErr(err), IterationList: res})
 }
 
-func (PostGreeter) CreateIteration(reqVo projectvo.CreateIterationReqVo) vo.CommonRespVo {
-	res, err := service.CreateIteration(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+func CreateIteration(c *gin.Context) {
+	req := projectvo.CreateIterationReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.CreateIteration(req.OrgId, req.UserId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }
 
-func (PostGreeter) UpdateIteration(reqVo projectvo.UpdateIterationReqVo) vo.CommonRespVo {
-	res, err := service.UpdateIteration(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+func UpdateIteration(c *gin.Context) {
+	req := projectvo.UpdateIterationReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.UpdateIteration(req.OrgId, req.UserId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }
 
-func (PostGreeter) DeleteIteration(reqVo projectvo.DeleteIterationReqVo) vo.CommonRespVo {
-	res, err := service.DeleteIteration(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+func DeleteIteration(c *gin.Context) {
+	req := projectvo.DeleteIterationReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.DeleteIteration(req.OrgId, req.UserId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }
 
-func (PostGreeter) IterationStatusTypeStat(reqVo projectvo.IterationStatusTypeStatReqVo) projectvo.IterationStatusTypeStatRespVo {
-	res, err := service.IterationStatusTypeStat(reqVo.OrgId, reqVo.Input)
-	return projectvo.IterationStatusTypeStatRespVo{Err: vo.NewErr(err), IterationStatusTypeStat: res}
+func IterationStatusTypeStat(c *gin.Context) {
+	req := projectvo.IterationStatusTypeStatReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.IterationStatusTypeStatRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.IterationStatusTypeStat(req.OrgId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.IterationStatusTypeStatRespVo{Err: vo.NewErr(err), IterationStatusTypeStat: res})
 }
 
 //func (PostGreeter) IterationIssueRelate(reqVo projectvo.IterationIssueRelateReqVo) vo.CommonRespVo {
@@ -36,39 +91,99 @@ func (PostGreeter) IterationStatusTypeStat(reqVo projectvo.IterationStatusTypeSt
 //	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
 //}
 
-func (PostGreeter) UpdateIterationStatus(reqVo projectvo.UpdateIterationStatusReqVo) vo.CommonRespVo {
-	res, err := service.UpdateIterationStatus(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+func UpdateIterationStatus(c *gin.Context) {
+	req := projectvo.UpdateIterationStatusReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.UpdateIterationStatus(req.OrgId, req.UserId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }
 
-func (PostGreeter) IterationInfo(reqVo projectvo.IterationInfoReqVo) projectvo.IterationInfoRespVo {
-	res, err := service.IterationInfo(reqVo.OrgId, reqVo.Input)
-	return projectvo.IterationInfoRespVo{Err: vo.NewErr(err), IterationInfo: res}
+func IterationInfo(c *gin.Context) {
+	req := projectvo.IterationInfoReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.IterationInfoRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
+	res, err := service.IterationInfo(req.OrgId, req.Input)
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.IterationInfoRespVo{Err: vo.NewErr(err), IterationInfo: res})
 }
 
 // 获取未完成的的迭代列表
-func (GetGreeter) GetNotCompletedIterationBoList(req projectvo.GetNotCompletedIterationBoListReqVo) projectvo.GetNotCompletedIterationBoListRespVo {
+func GetNotCompletedIterationBoList(c *gin.Context) {
+	req := projectvo.GetNotCompletedIterationBoListReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetNotCompletedIterationBoListRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetNotCompletedIterationBoList(req.OrgId, req.ProjectId)
-	return projectvo.GetNotCompletedIterationBoListRespVo{Err: vo.NewErr(err), IterationBoList: res}
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetNotCompletedIterationBoListRespVo{Err: vo.NewErr(err), IterationBoList: res})
 }
 
-func (PostGreeter) UpdateIterationStatusTime(req projectvo.UpdateIterationStatusTimeReqVo) vo.CommonRespVo {
+func UpdateIterationStatusTime(c *gin.Context) {
+	req := projectvo.UpdateIterationStatusTimeReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.UpdateIterationStatusTime(req.OrgId, req.UserId, req.Input)
-	return vo.CommonRespVo{Err: vo.NewErr(err), Void: res}
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(err), Void: res})
 }
 
-func (PostGreeter) GetSimpleIterationInfo(req projectvo.GetSimpleIterationInfoReqVo) projectvo.GetSimpleIterationInfoRespVo {
+func GetSimpleIterationInfo(c *gin.Context) {
+	req := projectvo.GetSimpleIterationInfoReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.GetSimpleIterationInfoRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.GetSimpleIterationInfo(req.OrgId, req.IterationIds)
-	return projectvo.GetSimpleIterationInfoRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.GetSimpleIterationInfoRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) UpdateIterationSort(req projectvo.UpdateIterationSortReqVo) vo.CommonRespVo {
+func UpdateIterationSort(c *gin.Context) {
+	req := projectvo.UpdateIterationSortReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, vo.CommonRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.UpdateIterationSort(req.OrgId, req.UserId, req.Params)
-	return vo.CommonRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, vo.CommonRespVo{
 		Err:  vo.NewErr(err),
 		Void: res,
-	}
+	})
 }

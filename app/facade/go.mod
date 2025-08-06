@@ -1,3 +1,11 @@
 module github.com/star-table/startable-server/app/facade
 
-go 1.24.0
+go 1.21
+
+require (
+	github.com/star-table/startable-server/common v0.0.0-00010101000000-000000000000
+	github.com/star-table/startable-server/go-common v0.0.0-00010101000000-000000000000
+)
+
+replace github.com/star-table/startable-server/common => ../../common
+replace github.com/star-table/startable-server/go-common => ../../go-common

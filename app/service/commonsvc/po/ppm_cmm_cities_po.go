@@ -1,4 +1,4 @@
-package commonsvc
+package po
 
 type PpmCmmCities struct {
 	Id        int64  `db:"id,omitempty" json:"id"`

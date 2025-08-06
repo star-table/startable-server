@@ -1,43 +1,71 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service/issue_view"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
 // / 任务视图相关的操作
 // 创建视图
-func (PostGreeter) CreateTaskView(reqVo *projectvo.CreateTaskViewReqVo) projectvo.CreateTaskViewRespVo {
+func CreateTaskView(c *gin.Context) {
+	var reqVo projectvo.CreateTaskViewReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, projectvo.CreateTaskViewRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	res, err := issue_view.CreateTaskView(reqVo.OrgId, reqVo.UserId, &reqVo.Input)
-	return projectvo.CreateTaskViewRespVo{
+	c.JSON(http.StatusOK, projectvo.CreateTaskViewRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) GetTaskViewList(reqVo *projectvo.GetTaskViewListReqVo) projectvo.GetTaskViewListRespVo {
+func GetTaskViewList(c *gin.Context) {
+	var reqVo projectvo.GetTaskViewListReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, projectvo.GetTaskViewListRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	res, err := issue_view.GetTaskViewList(reqVo.OrgId, reqVo.UserId, &reqVo.Input)
-	return projectvo.GetTaskViewListRespVo{
+	c.JSON(http.StatusOK, projectvo.GetTaskViewListRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) UpdateTaskView(reqVo *projectvo.UpdateTaskViewReqVo) vo.CommonRespVo {
+func UpdateTaskView(c *gin.Context) {
+	var reqVo projectvo.UpdateTaskViewReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, vo.CommonRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Void: nil})
+		return
+	}
+
 	res, err := issue_view.UpdateTaskView(reqVo.OrgId, reqVo.UserId, &reqVo.Input)
-	return vo.CommonRespVo{
+	c.JSON(http.StatusOK, vo.CommonRespVo{
 		Err:  vo.NewErr(err),
 		Void: res,
-	}
+	})
 }
 
-func (PostGreeter) DeleteTaskView(reqVo *projectvo.DeleteTaskViewReqVo) vo.CommonRespVo {
+func DeleteTaskView(c *gin.Context) {
+	var reqVo projectvo.DeleteTaskViewReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, vo.CommonRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Void: nil})
+		return
+	}
+
 	res, err := issue_view.DeleteTaskView(reqVo.OrgId, reqVo.UserId, reqVo.Input.ID)
-	return vo.CommonRespVo{
+	c.JSON(http.StatusOK, vo.CommonRespVo{
 		Err:  vo.NewErr(err),
 		Void: res,
-	}
+	})
 }
 
 // 筛选时，获取值列表

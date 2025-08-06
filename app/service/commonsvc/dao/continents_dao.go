@@ -1,9 +1,10 @@
-package commonsvc
+package dao
 
 import (
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"github.com/star-table/startable-server/common/model/bo"
+	"github.com/star-table/startable-server/go-common/pkg/log"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )

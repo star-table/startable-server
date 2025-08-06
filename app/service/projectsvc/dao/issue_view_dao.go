@@ -3,13 +3,11 @@ package dao
 import (
 	"github.com/star-table/startable-server/app/service/projectsvc/po"
 	"github.com/star-table/startable-server/common/core/consts"
-	"github.com/star-table/startable-server/common/core/logger"
+
 	"github.com/star-table/startable-server/common/library/db/mysql"
 	"upper.io/db.v3"
 	"upper.io/db.v3/lib/sqlbuilder"
 )
-
-var log = logger.GetDefaultLogger()
 
 func CreateIssueView(po po.PpmPriIssueView, tx ...sqlbuilder.Tx) error {
 	var err error = nil

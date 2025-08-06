@@ -1,13 +1,13 @@
-package commonsvc
+package service
 
 import (
 	"context"
 	"testing"
 
+	"github.com/smartystreets/goconvey/convey"
 	json2 "github.com/star-table/startable-server/common/core/util/json"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/test"
-	"github.com/smartystreets/goconvey/convey"
 )
 
 func TestDingTalkInfo(t *testing.T) {

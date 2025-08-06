@@ -10,7 +10,7 @@ import (
 
 	msgPb "gitea.bjx.cloud/LessCode/interface/golang/msg/v1"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/common/core/threadlocal"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"
 
@@ -1551,7 +1551,7 @@ func UpdateProjectWithoutAuth(reqVo projectvo.UpdateProjectReqVo) (*vo.Project, 
 					openTraceId, _ := threadlocal.Mgr.GetValue(consts.JaegerContextTraceKey)
 					openTraceIdStr := cast.ToString(openTraceId)
 
-					report.ReportAppEvent(msgPb.EventType_AppChatCreated, openTraceIdStr, e)
+					common.ReportAppEvent(msgPb.EventType_AppChatCreated, openTraceIdStr, e)
 				}
 			}
 			err := domain.ClearProjectMainChatCache(orgId, input.ID)

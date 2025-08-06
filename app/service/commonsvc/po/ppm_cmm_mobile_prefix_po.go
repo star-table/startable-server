@@ -1,4 +1,4 @@
-package commonsvc
+package po
 
 type PpmCmmMobilePrefix struct {
 	Id        int64  `db:"id,omitempty" json:"id"`

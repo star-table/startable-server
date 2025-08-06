@@ -1,25 +1,64 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
-	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) DeleteProjectAttachment(reqVo projectvo.DeleteProjectAttachmentReqVo) projectvo.DeleteProjectAttachmentRespVo {
+// DeleteProjectAttachment 删除项目附件
+func DeleteProjectAttachment(c *gin.Context) {
+	var reqVo projectvo.DeleteProjectAttachmentReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.DeleteProjectAttachment(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.DeleteProjectAttachmentRespVo{Err: vo.NewErr(err), Output: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, projectvo.DeleteProjectAttachmentRespVo{Output: res})
 }
 
-func (PostGreeter) GetProjectAttachment(reqVo projectvo.GetProjectAttachmentReqVo) projectvo.GetProjectAttachmentRespVo {
+// GetProjectAttachment 获取项目附件列表
+func GetProjectAttachment(c *gin.Context) {
+	var reqVo projectvo.GetProjectAttachmentReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if reqVo.Size == 0 {
 		reqVo.Size = 20
 	}
+
 	res, err := service.GetProjectAttachment(reqVo.OrgId, reqVo.UserId, reqVo.Page, reqVo.Size, reqVo.Input)
-	return projectvo.GetProjectAttachmentRespVo{Err: vo.NewErr(err), Output: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, projectvo.GetProjectAttachmentRespVo{Output: res})
 }
 
-func (PostGreeter) GetProjectAttachmentInfo(reqVo projectvo.GetProjectAttachmentInfoReqVo) projectvo.GetProjectAttachmentInfoRespVo {
+// GetProjectAttachmentInfo 获取项目附件信息
+func GetProjectAttachmentInfo(c *gin.Context) {
+	var reqVo projectvo.GetProjectAttachmentInfoReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	res, err := service.GetProjectAttachmentInfo(reqVo.OrgId, reqVo.UserId, reqVo.Input)
-	return projectvo.GetProjectAttachmentInfoRespVo{Err: vo.NewErr(err), Output: res}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, projectvo.GetProjectAttachmentInfoRespVo{Output: res})
 }

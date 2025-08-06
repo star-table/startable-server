@@ -1,43 +1,87 @@
-package orgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	orgsvcService "github.com/star-table/startable-server/app/service/orgsvc/service"
 	"github.com/star-table/startable-server/app/service/orgsvc/domain"
 	"github.com/star-table/startable-server/common/core/consts"
 	"github.com/star-table/startable-server/common/core/util/slice"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/orgvo"
+	"github.com/star-table/startable-server/common/core/errs"
+	"github.com/star-table/startable-server/common/core/logger"
 )
 
-func (PostGreeter) SendSMSLoginCode(req orgvo.SendSMSLoginCodeReqVo) vo.VoidErr {
-	phoneNumber := req.Input.PhoneNumber
-	//phone format check
-	verifyErr := service.VerifyCaptcha(req.Input.CaptchaID, req.Input.CaptchaPassword, req.Input.PhoneNumber, req.Input.YidunValidate)
-	if verifyErr != nil {
-		return vo.VoidErr{Err: vo.NewErr(verifyErr)}
+func SendSMSLoginCode(c *gin.Context) {
+	var req orgvo.SendSMSLoginCodeReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("SendSMSLoginCode bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
 	}
 
-	err := service.SendSMSLoginCode(phoneNumber)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+	phoneNumber := req.Input.PhoneNumber
+	//phone format check
+	verifyErr := orgsvcService.VerifyCaptcha(req.Input.CaptchaID, req.Input.CaptchaPassword, req.Input.PhoneNumber, req.Input.YidunValidate)
+	if verifyErr != nil {
+		response := vo.VoidErr{Err: vo.NewErr(verifyErr)}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	err := orgsvcService.SendSMSLoginCode(phoneNumber)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) SendAuthCode(req orgvo.SendAuthCodeReqVo) vo.VoidErr {
+func SendAuthCode(c *gin.Context) {
+	var req orgvo.SendAuthCodeReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("SendAuthCode bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
 	if ok, _ := slice.Contain([]int{consts.AuthCodeTypeBind, consts.AuthCodeTypeUnBind}, req.Input.AuthType); !ok {
-		verifyErr := service.VerifyCaptcha(req.Input.CaptchaID, req.Input.CaptchaPassword, req.Input.Address, req.Input.YidunValidate)
+		verifyErr := orgsvcService.VerifyCaptcha(req.Input.CaptchaID, req.Input.CaptchaPassword, req.Input.Address, req.Input.YidunValidate)
 		if verifyErr != nil {
-			return vo.VoidErr{Err: vo.NewErr(verifyErr)}
+			response := vo.VoidErr{Err: vo.NewErr(verifyErr)}
+			c.JSON(http.StatusOK, response)
+			return
 		}
 	}
 
-	err := service.SendAuthCode(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+	err := orgsvcService.SendAuthCode(req)
+	response := vo.VoidErr{Err: vo.NewErr(err)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) GetPwdLoginCode(req orgvo.GetPwdLoginCodeReqVo) orgvo.GetPwdLoginCodeRespVo {
+func GetPwdLoginCode(c *gin.Context) {
+	var req orgvo.GetPwdLoginCodeReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("GetPwdLoginCode bind request failed", err)
+		response := orgvo.GetPwdLoginCodeRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
 	res, err := domain.GetPwdLoginCode(req.CaptchaId)
-	return orgvo.GetPwdLoginCodeRespVo{Err: vo.NewErr(err), CaptchaPassword: res}
+	response := orgvo.GetPwdLoginCodeRespVo{Err: vo.NewErr(err), CaptchaPassword: res}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) SetPwdLoginCode(req orgvo.SetPwdLoginCodeReqVo) vo.VoidErr {
-	return vo.VoidErr{Err: vo.NewErr(domain.SetPwdLoginCode(req.CaptchaId, req.CaptchaPassword))}
+func SetPwdLoginCode(c *gin.Context) {
+	var req orgvo.SetPwdLoginCodeReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		logger.Error("SetPwdLoginCode bind request failed", err)
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	response := vo.VoidErr{Err: vo.NewErr(domain.SetPwdLoginCode(req.CaptchaId, req.CaptchaPassword))}
+	c.JSON(http.StatusOK, response)
 }

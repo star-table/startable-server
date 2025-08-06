@@ -1,22 +1,67 @@
-package msgsvc
+package api
 
 import (
-	"github.com/star-table/startable-server/app/service"
+	"net/http"
+	"github.com/gin-gonic/gin"
+	msgsvcService "github.com/star-table/startable-server/app/service/msgsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/msgvo"
 )
 
-func (PostGreeter) SendLoginSMS(req msgvo.SendLoginSMSReqVo) vo.VoidErr {
-	err := service.SendLoginSMS(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+// SendLoginSMS 发送登录短信
+func SendLoginSMS(c *gin.Context) {
+	var req msgvo.SendLoginSMSReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ParamError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	err := msgsvcService.SendLoginSMS(req)
+	if err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ServerError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response := vo.VoidErr{Err: vo.NewErr(nil)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) SendMail(req msgvo.SendMailReqVo) vo.VoidErr {
-	err := service.SendMail(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+// SendMail 发送邮件
+func SendMail(c *gin.Context) {
+	var req msgvo.SendMailReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ParamError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	err := msgsvcService.SendMail(req)
+	if err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ServerError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response := vo.VoidErr{Err: vo.NewErr(nil)}
+	c.JSON(http.StatusOK, response)
 }
 
-func (PostGreeter) SendSMS(req msgvo.SendSMSReqVo) vo.VoidErr {
-	err := service.SendSMS(req)
-	return vo.VoidErr{Err: vo.NewErr(err)}
+// SendSMS 发送短信
+func SendSMS(c *gin.Context) {
+	var req msgvo.SendSMSReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ParamError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	
+	err := msgsvcService.SendSMS(req)
+	if err != nil {
+		response := vo.VoidErr{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ServerError, err))}
+		c.JSON(http.StatusOK, response)
+		return
+	}
+	response := vo.VoidErr{Err: vo.NewErr(nil)}
+	c.JSON(http.StatusOK, response)
 }

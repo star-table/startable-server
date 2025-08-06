@@ -9,7 +9,7 @@ import (
 	tablePb "gitea.bjx.cloud/LessCode/interface/golang/table/v1"
 	sdk_const "gitea.bjx.cloud/allstar/platform-sdk/consts"
 	"github.com/star-table/startable-server/app/facade/automationfacade"
-	"github.com/star-table/startable-server/app/facade/common/report"
+	"github.com/star-table/startable-server/app/facade/common"
 	"github.com/star-table/startable-server/app/facade/idfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/app/service/projectsvc/domain"
@@ -388,7 +388,7 @@ func ApplyProjectTemplateInner(req *projectvo.ApplyProjectTemplateReq) (*project
 
 			openTraceId, _ := threadlocal.Mgr.GetValue(consts.JaegerContextTraceKey)
 			openTraceIdStr := cast.ToString(openTraceId)
-			report.ReportAppEvent(msgPb.EventType_AppChatCreated, openTraceIdStr, e)
+			common.ReportAppEvent(msgPb.EventType_AppChatCreated, openTraceIdStr, e)
 
 		})
 	}

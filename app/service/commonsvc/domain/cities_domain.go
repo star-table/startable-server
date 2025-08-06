@@ -1,4 +1,4 @@
-package commonsvc
+package domain
 
 import (
 	"github.com/star-table/startable-server/app/service/commonsvc/dao"
@@ -6,6 +6,7 @@ import (
 	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/core/util/copyer"
 	"github.com/star-table/startable-server/common/model/bo"
+	"github.com/star-table/startable-server/go-common/pkg/log"
 	"upper.io/db.v3"
 )
 

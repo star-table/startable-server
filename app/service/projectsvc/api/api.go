@@ -1,24 +1,12 @@
 package api
 
 import (
-	"github.com/star-table/startable-server/common/core/logger"
-	"github.com/star-table/startable-server/common/extra/gin/mvc"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-var log = logger.GetDefaultLogger()
-
-var postGreeter = PostGreeter{}
-
-var getGreeter = GetGreeter{}
-
-type PostGreeter struct {
-	mvc.Greeter
-}
-
-type GetGreeter struct {
-	mvc.Greeter
-}
-
-func (GetGreeter) Health() string {
-	return "ok"
+// Health 健康检查接口
+func Health(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

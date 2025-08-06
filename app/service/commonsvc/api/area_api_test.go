@@ -1,10 +1,11 @@
-package commonsvc
+package api
 
 import (
 	"context"
 	"fmt"
 	"testing"
 
+	"github.com/smartystreets/goconvey/convey"
 	"github.com/star-table/startable-server/app/facade/commonfacade"
 	"github.com/star-table/startable-server/app/facade/orgfacade"
 	"github.com/star-table/startable-server/common/core/config"
@@ -12,7 +13,6 @@ import (
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/commonvo"
 	"github.com/star-table/startable-server/common/test"
-	"github.com/smartystreets/goconvey/convey"
 )
 
 func TestAreaLinkageList(t *testing.T) {

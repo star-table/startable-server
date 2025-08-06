@@ -1,12 +1,22 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) IssueAssignRank(reqVo projectvo.IssueAssignRankReqVo) projectvo.IssueAssignRankRespVo {
+func IssueAssignRank(c *gin.Context) {
+	var reqVo projectvo.IssueAssignRankReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, projectvo.IssueAssignRankRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), IssueAssignRankResp: nil})
+		return
+	}
+
 	input := reqVo.Input
 	projectId := input.ProjectID
 	rankTop := 5
@@ -17,17 +27,29 @@ func (PostGreeter) IssueAssignRank(reqVo projectvo.IssueAssignRankReqVo) project
 		}
 	}
 	res, err := service.IssueAssignRank(reqVo.OrgId, projectId, rankTop)
-	return projectvo.IssueAssignRankRespVo{Err: vo.NewErr(err), IssueAssignRankResp: res}
+	c.JSON(http.StatusOK, projectvo.IssueAssignRankRespVo{Err: vo.NewErr(err), IssueAssignRankResp: res})
 }
 
-func (GetGreeter) IssueAndProjectCountStat(reqVo projectvo.IssueAndProjectCountStatReqVo) projectvo.IssueAndProjectCountStatRespVo {
+func IssueAndProjectCountStat(c *gin.Context) {
+	var reqVo projectvo.IssueAndProjectCountStatReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, projectvo.IssueAndProjectCountStatRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	res, err := service.IssueAndProjectCountStat(reqVo)
-	return projectvo.IssueAndProjectCountStatRespVo{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, projectvo.IssueAndProjectCountStatRespVo{Err: vo.NewErr(err), Data: res})
 }
 
-func (PostGreeter) IssueDailyPersonalWorkCompletionStat(reqVo projectvo.IssueDailyPersonalWorkCompletionStatReqVo) projectvo.IssueDailyPersonalWorkCompletionStatRespVo {
+func IssueDailyPersonalWorkCompletionStat(c *gin.Context) {
+	var reqVo projectvo.IssueDailyPersonalWorkCompletionStatReqVo
+	if err := c.ShouldBindJSON(&reqVo); err != nil {
+		c.JSON(http.StatusBadRequest, projectvo.IssueDailyPersonalWorkCompletionStatRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Data: nil})
+		return
+	}
+
 	res, err := service.IssueDailyPersonalWorkCompletionStat(reqVo)
-	return projectvo.IssueDailyPersonalWorkCompletionStatRespVo{Err: vo.NewErr(err), Data: res}
+	c.JSON(http.StatusOK, projectvo.IssueDailyPersonalWorkCompletionStatRespVo{Err: vo.NewErr(err), Data: res})
 }
 
 //func (PostGreeter) GetIssueCountByStatus(req projectvo.GetIssueCountByStatusReqVo) projectvo.GetIssueCountByStatusRespVo {
@@ -40,10 +62,16 @@ func (PostGreeter) IssueDailyPersonalWorkCompletionStat(reqVo projectvo.IssueDai
 //	}
 //}
 
-func (PostGreeter) AuthProject(req projectvo.AuthProjectReqVo) vo.CommonRespVo {
+func AuthProject(c *gin.Context) {
+	var req projectvo.AuthProjectReqVo
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, vo.CommonRespVo{Err: vo.NewErr(errs.ReqParamsValidateError), Void: nil})
+		return
+	}
+
 	err := service.AuthProject(req.OrgId, req.UserId, req.ProjectId, req.Path, req.Operation)
-	return vo.CommonRespVo{
+	c.JSON(http.StatusOK, vo.CommonRespVo{
 		Err:  vo.NewErr(err),
 		Void: nil,
-	}
+	})
 }

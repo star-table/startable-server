@@ -1,47 +1,101 @@
 package api
 
 import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 	"github.com/star-table/startable-server/app/service/projectsvc/service"
+	"github.com/star-table/startable-server/common/core/errs"
 	"github.com/star-table/startable-server/common/model/vo"
 	"github.com/star-table/startable-server/common/model/vo/projectvo"
 )
 
-func (PostGreeter) CreateColumn(req projectvo.CreateColumnReqVo) projectvo.CreateColumnRespVo {
+func CreateColumn(c *gin.Context) {
+	req := projectvo.CreateColumnReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.CreateColumnRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.CreateColumn(req)
-	return projectvo.CreateColumnRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.CreateColumnRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) CopyColumn(req projectvo.CopyColumnReqVo) projectvo.CopyColumnRespVo {
+func CopyColumn(c *gin.Context) {
+	req := projectvo.CopyColumnReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.CopyColumnRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.CopyColumn(req)
-	return projectvo.CopyColumnRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.CopyColumnRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) UpdateColumn(req projectvo.UpdateColumnReqVo) projectvo.UpdateColumnRespVo {
+func UpdateColumn(c *gin.Context) {
+	req := projectvo.UpdateColumnReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.UpdateColumnRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.UpdateColumn(req)
-	return projectvo.UpdateColumnRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.UpdateColumnRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) DeleteColumn(req projectvo.DeleteColumnReqVo) projectvo.DeleteColumnRespVo {
+func DeleteColumn(c *gin.Context) {
+	req := projectvo.DeleteColumnReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.DeleteColumnRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.DeleteColumn(req)
-	return projectvo.DeleteColumnRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.DeleteColumnRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
 
-func (PostGreeter) UpdateColumnDescription(req projectvo.UpdateColumnDescriptionReqVo) projectvo.UpdateColumnDescriptionRespVo {
+func UpdateColumnDescription(c *gin.Context) {
+	req := projectvo.UpdateColumnDescriptionReqVo{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		// Replaced: c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusOK, projectvo.UpdateColumnDescriptionRespVo{Err: vo.NewErr(errs.BuildSystemErrorInfo(errs.ReqParamsValidateError, err))})
+		return
+	}
+
 	res, err := service.UpdateColumnDesc(req)
-	return projectvo.UpdateColumnDescriptionRespVo{
+	if err != nil {
+		// Replaced: c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()}); return
+	}
+	c.JSON(http.StatusOK, projectvo.UpdateColumnDescriptionRespVo{
 		Err:  vo.NewErr(err),
 		Data: res,
-	}
+	})
 }
